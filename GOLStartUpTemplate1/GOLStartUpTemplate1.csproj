@@ -69,6 +69,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -82,6 +83,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StartButtonImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StartWithoutDebug_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pause_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NextFrameArrow_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BubbleChart_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

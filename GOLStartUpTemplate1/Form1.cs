@@ -167,11 +167,6 @@ namespace GOLStartUpTemplate1
             }
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private int countNeighborsFinite(int x, int y)
         {
             int neighbors = 0;
@@ -258,6 +253,7 @@ namespace GOLStartUpTemplate1
             return neighbors;
         }
 
+        // Fills a 2D Cell arrays with new cells
         private void Fill2DCellArray(Cell[,] array)
         {
             for (int ix = 0; ix < array.GetLength(0); ix++)
@@ -269,7 +265,8 @@ namespace GOLStartUpTemplate1
             }
         }
 
-        private void RandomUniverse()
+        // Loops through the universe and randoms cells to alive or dead
+        private void RandomUniverseTimeSeed()
         {
             int num = 0;
 
@@ -289,29 +286,16 @@ namespace GOLStartUpTemplate1
                     }
                 }
             }
+
+            graphicsPanel1.Invalidate();
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            timer.Enabled = true;
-        }
-
-        private void toolStripButton2_Click(object sender, EventArgs e)
-        {
-            timer.Enabled = false;
-        }
-
-        private void toolStripButton3_Click(object sender, EventArgs e)
-        {
-            NextGeneration();
-        }
-
-        private void newToolStripButton_Click(object sender, EventArgs e)
+        // Pauses and resets the universe and generation count
+        private void NewUniverse()
         {
             timer.Enabled = false;
             generations = 0;
 
-            // clear the universe
             for (int ix = 0; ix < universe.GetLength(0); ix++)
             {
                 for (int iy = 0; iy < universe.GetLength(1); iy++)
@@ -323,5 +307,43 @@ namespace GOLStartUpTemplate1
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
             graphicsPanel1.Invalidate();
         }
+
+        #region Tooltip Buttons
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = true;
+        }
+
+        private void PauseButton_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
+        }
+
+        private void NextGenerationButton_Click(object sender, EventArgs e)
+        {
+            NextGeneration();
+        }
+
+        private void NewUniverseButton_Click(object sender, EventArgs e)
+        {
+            NewUniverse();
+        }
+
+        private void randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void randomFromTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewUniverse();
+            RandomUniverseTimeSeed();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        #endregion
     }
 }
