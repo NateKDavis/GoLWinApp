@@ -329,19 +329,17 @@ namespace GOLStartUpTemplate1
             NewUniverse();
         }
 
-        private int randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        private void randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int inputSeed = 0;
 
             ModalDialog dlg = new ModalDialog();
-            dlg.seed = 0;
+            //dlg.seed = 0;
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
-                 inputSeed = dlg.seed;
+                 //inputSeed = dlg.seed;
             }
-
-            return inputSeed;
         }
 
         private void randomFromTimeToolStripMenuItem_Click(object sender, EventArgs e)

@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GOLStartUpTemplate1
 {
-
-    public partial class ModalDialog : Form
+    public class ApplyEventArgs : EventArgs
     {
         int seed;
         string seedString;
@@ -28,9 +23,11 @@ namespace GOLStartUpTemplate1
             set { seedString = value; }
         }
 
-        public ModalDialog()
+        public ApplyEventArgs(int seed, string seedString)
         {
-            InitializeComponent();
-        }        
+            this.seed = seed;
+            this.seedString = seedString;
+        }
+
     }
 }
