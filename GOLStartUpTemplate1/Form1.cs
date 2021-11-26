@@ -17,8 +17,8 @@ namespace GOLStartUpTemplate1
         Cell[,] scratchPad = new Cell[100, 100];
 
         // Drawing colors
-        Color gridColor = Color.Black;
-        Color cellColor = Color.Gray;
+        Color gridColor;
+        Color cellColor;
 
         // The Timer class
         Timer timer = new Timer();
@@ -26,11 +26,18 @@ namespace GOLStartUpTemplate1
         // Generation count
         int generations = 0;
 
+        // Seed for random by seed
         int seed = 0;
 
         public Form1()
         {
             InitializeComponent();
+
+            // Loading color settings
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackgroundColor;
+            gridColor = Properties.Settings.Default.GridColor;
+            cellColor = Properties.Settings.Default.CellColor;
+
             Fill2DCellArray(universe);
             Fill2DCellArray(scratchPad);
 
@@ -415,13 +422,21 @@ namespace GOLStartUpTemplate1
             }
         }
 
-        #endregion
-
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             gridColor = Color.Black;
             cellColor = Color.Gray;
             graphicsPanel1.BackColor = Color.White;
         }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.BackgroundColor = graphicsPanel1.BackColor;
+            Properties.Settings.Default.GridColor = gridColor;
+            Properties.Settings.Default.CellColor = cellColor;
+
+            Properties.Settings.Default.Save();
+        }
+        #endregion
     }
 }

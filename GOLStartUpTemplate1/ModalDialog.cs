@@ -13,18 +13,11 @@ namespace GOLStartUpTemplate1
 
     public partial class ModalDialog : Form
     {
-        string seedString;
-
+        // Seed Property
         public int Seed
         {
             get { return (int)SeedNumBox.Value; }
             set { SeedNumBox.Value = value; }
-        }
-
-        public string SeedString
-        {
-            get { return seedString; }
-            set { seedString = value; }
         }
 
         public ModalDialog()
