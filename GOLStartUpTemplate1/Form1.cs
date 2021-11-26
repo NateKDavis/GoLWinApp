@@ -424,9 +424,9 @@ namespace GOLStartUpTemplate1
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            gridColor = Color.Black;
-            cellColor = Color.Gray;
-            graphicsPanel1.BackColor = Color.White;
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackgroundColor;
+            gridColor = Properties.Settings.Default.GridColor;
+            cellColor = Properties.Settings.Default.CellColor;
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -438,5 +438,12 @@ namespace GOLStartUpTemplate1
             Properties.Settings.Default.Save();
         }
         #endregion
+
+        private void resetAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackgroundColor;
+            gridColor = Properties.Settings.Default.GridColor;
+            cellColor = Properties.Settings.Default.CellColor;
+        }
     }
 }

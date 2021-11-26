@@ -60,13 +60,15 @@ namespace GOLStartUpTemplate1
             this.randomFromTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelGenerations = new System.Windows.Forms.ToolStripStatusLabel();
-            this.graphicsPanel1 = new GOLStartUpTemplate1.GraphicsPanel();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.colorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.cellsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.gridToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.graphicsPanel1 = new GOLStartUpTemplate1.GraphicsPanel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.resetAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -153,7 +155,8 @@ namespace GOLStartUpTemplate1
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.customizeToolStripMenuItem});
+            this.customizeToolStripMenuItem,
+            this.resetAllToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.toolsToolStripMenuItem.Text = "Options";
@@ -164,37 +167,38 @@ namespace GOLStartUpTemplate1
             this.backgroundToolStripMenuItem,
             this.cellsToolStripMenuItem,
             this.gridToolStripMenuItem,
+            this.toolStripSeparator1,
             this.resetToolStripMenuItem});
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.customizeToolStripMenuItem.Text = "Colors";
             // 
             // backgroundToolStripMenuItem
             // 
             this.backgroundToolStripMenuItem.Name = "backgroundToolStripMenuItem";
-            this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.backgroundToolStripMenuItem.Text = "Background";
             this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
             // 
             // cellsToolStripMenuItem
             // 
             this.cellsToolStripMenuItem.Name = "cellsToolStripMenuItem";
-            this.cellsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.cellsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cellsToolStripMenuItem.Text = "Cells";
             this.cellsToolStripMenuItem.Click += new System.EventHandler(this.cellsToolStripMenuItem_Click);
             // 
             // gridToolStripMenuItem
             // 
             this.gridToolStripMenuItem.Name = "gridToolStripMenuItem";
-            this.gridToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.gridToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.gridToolStripMenuItem.Text = "Grid";
             this.gridToolStripMenuItem.Click += new System.EventHandler(this.gridToolStripMenuItem_Click);
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.resetToolStripMenuItem.Text = "Reset";
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.resetToolStripMenuItem.Text = "Reset Colors";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
             // toolStrip1
@@ -328,18 +332,6 @@ namespace GOLStartUpTemplate1
             this.toolStripStatusLabelGenerations.Size = new System.Drawing.Size(90, 17);
             this.toolStripStatusLabelGenerations.Text = "Generations = 0";
             // 
-            // graphicsPanel1
-            // 
-            this.graphicsPanel1.BackColor = System.Drawing.SystemColors.Window;
-            this.graphicsPanel1.ContextMenuStrip = this.contextMenuStrip1;
-            this.graphicsPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphicsPanel1.Location = new System.Drawing.Point(0, 49);
-            this.graphicsPanel1.Name = "graphicsPanel1";
-            this.graphicsPanel1.Size = new System.Drawing.Size(573, 274);
-            this.graphicsPanel1.TabIndex = 3;
-            this.graphicsPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicsPanel1_Paint);
-            this.graphicsPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.graphicsPanel1_MouseClick);
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -385,6 +377,30 @@ namespace GOLStartUpTemplate1
             this.resetToolStripMenuItem1.Size = new System.Drawing.Size(138, 22);
             this.resetToolStripMenuItem1.Text = "Reset";
             this.resetToolStripMenuItem1.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
+            // 
+            // graphicsPanel1
+            // 
+            this.graphicsPanel1.BackColor = System.Drawing.SystemColors.Window;
+            this.graphicsPanel1.ContextMenuStrip = this.contextMenuStrip1;
+            this.graphicsPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.graphicsPanel1.Location = new System.Drawing.Point(0, 49);
+            this.graphicsPanel1.Name = "graphicsPanel1";
+            this.graphicsPanel1.Size = new System.Drawing.Size(573, 274);
+            this.graphicsPanel1.TabIndex = 3;
+            this.graphicsPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicsPanel1_Paint);
+            this.graphicsPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.graphicsPanel1_MouseClick);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // resetAllToolStripMenuItem
+            // 
+            this.resetAllToolStripMenuItem.Name = "resetAllToolStripMenuItem";
+            this.resetAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.resetAllToolStripMenuItem.Text = "Reset All";
+            this.resetAllToolStripMenuItem.Click += new System.EventHandler(this.resetAllToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -449,6 +465,8 @@ namespace GOLStartUpTemplate1
         private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem backgroundToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem resetAllToolStripMenuItem;
     }
 }
 
