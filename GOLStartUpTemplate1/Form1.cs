@@ -26,8 +26,7 @@ namespace GOLStartUpTemplate1
         // Generation count
         int generations = 0;
 
-        // Random funness
-        Random rand = new Random();
+        int seed = 0;
 
         public Form1()
         {
@@ -269,12 +268,39 @@ namespace GOLStartUpTemplate1
         private void RandomUniverseTimeSeed()
         {
             int num = 0;
+            Random randTime = new Random();
 
             for (int ix = 0; ix < universe.GetLength(0); ix++)
             {
                 for (int iy = 0; iy < universe.GetLength(1); iy++)
                 {
-                    num = rand.Next(3);
+                    num = randTime.Next(3);
+
+                    if (num == 0)
+                    {
+                        universe[ix, iy].isAlive = true;
+                    }
+                    else
+                    {
+                        universe[ix, iy].isAlive = false;
+                    }
+                }
+            }
+
+            graphicsPanel1.Invalidate();
+        }
+
+        // Loops through the universe and randoms cells to alive or dead
+        private void RandomUniverseRandNumSeed()
+        {
+            int num = 0;
+            Random randNum = new Random(seed);
+
+            for (int ix = 0; ix < universe.GetLength(0); ix++)
+            {
+                for (int iy = 0; iy < universe.GetLength(1); iy++)
+                {
+                    num = randNum.Next(3);
 
                     if (num == 0)
                     {
@@ -331,14 +357,14 @@ namespace GOLStartUpTemplate1
 
         private void randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int inputSeed = 0;
-
             ModalDialog dlg = new ModalDialog();
-            //dlg.seed = 0;
-
+            dlg.Seed = seed;
             if (DialogResult.OK == dlg.ShowDialog())
             {
-                 //inputSeed = dlg.seed;
+                seed = dlg.Seed;
+                NewUniverse();
+                RandomUniverseRandNumSeed();
+                graphicsPanel1.Invalidate();
             }
         }
 

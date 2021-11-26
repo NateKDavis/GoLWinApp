@@ -32,7 +32,8 @@ namespace GOLStartUpTemplate1
             this.OK = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.SeedNumBox = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.SeedNumBox)).BeginInit();
             this.SuspendLayout();
             // 
             // OK
@@ -61,18 +62,23 @@ namespace GOLStartUpTemplate1
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(59, 63);
+            this.label1.Location = new System.Drawing.Point(113, 59);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Seed";
             // 
-            // textBox1
+            // SeedNumBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(100, 60);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(200, 20);
-            this.textBox1.TabIndex = 3;
+            this.SeedNumBox.Location = new System.Drawing.Point(161, 57);
+            this.SeedNumBox.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.SeedNumBox.Name = "SeedNumBox";
+            this.SeedNumBox.Size = new System.Drawing.Size(120, 20);
+            this.SeedNumBox.TabIndex = 3;
             // 
             // ModalDialog
             // 
@@ -81,7 +87,7 @@ namespace GOLStartUpTemplate1
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.Cancel;
             this.ClientSize = new System.Drawing.Size(384, 161);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.SeedNumBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.OK);
@@ -91,6 +97,7 @@ namespace GOLStartUpTemplate1
             this.Name = "ModalDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Seed";
+            ((System.ComponentModel.ISupportInitialize)(this.SeedNumBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -101,6 +108,6 @@ namespace GOLStartUpTemplate1
         private System.Windows.Forms.Button OK;
         private System.Windows.Forms.Button Cancel;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.NumericUpDown SeedNumBox;
     }
 }
