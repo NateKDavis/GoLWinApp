@@ -352,6 +352,50 @@ namespace GOLStartUpTemplate1
         {
             this.Close();
         }
+
+        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = graphicsPanel1.BackColor;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                graphicsPanel1.BackColor = dlg.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void cellsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = cellColor;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                cellColor = dlg.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void gridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = gridColor;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                gridColor = dlg.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
         #endregion
+
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            gridColor = Color.Black;
+            cellColor = Color.Gray;
+            graphicsPanel1.BackColor = Color.White;
+        }
     }
 }
