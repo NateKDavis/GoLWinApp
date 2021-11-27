@@ -75,6 +75,8 @@ namespace GOLStartUpTemplate1
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -86,7 +88,8 @@ namespace GOLStartUpTemplate1
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.toolsToolStripMenuItem,
-            this.universeToolStripMenuItem});
+            this.universeToolStripMenuItem,
+            this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(573, 24);
@@ -458,6 +461,24 @@ namespace GOLStartUpTemplate1
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showGridToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // showGridToolStripMenuItem
+            // 
+            this.showGridToolStripMenuItem.Checked = true;
+            this.showGridToolStripMenuItem.CheckOnClick = true;
+            this.showGridToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showGridToolStripMenuItem.Name = "showGridToolStripMenuItem";
+            this.showGridToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showGridToolStripMenuItem.Text = "Show Grid";
+            this.showGridToolStripMenuItem.Click += new System.EventHandler(this.showGridToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -529,6 +550,8 @@ namespace GOLStartUpTemplate1
         private System.Windows.Forms.ToolStripMenuItem sizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem speedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toroidalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showGridToolStripMenuItem;
     }
 }
 

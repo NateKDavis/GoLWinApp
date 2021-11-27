@@ -151,8 +151,11 @@ namespace GOLStartUpTemplate1
                         e.Graphics.FillRectangle(cellBrush, cellRect);
                     }
 
-                    // Outline the cell with a pen
-                    e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    if (showGrid == true)
+                    {
+                        // Outline the cell with a pen
+                        e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    }
                 }
             }
 
@@ -467,6 +470,12 @@ namespace GOLStartUpTemplate1
         {
             isFinite = false;
             finiteToolStripMenuItem.Checked = false;
+        }
+
+        private void showGridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showGrid = !showGrid;
+            graphicsPanel1.Invalidate();
         }
     }
 }
