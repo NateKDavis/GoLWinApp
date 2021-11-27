@@ -13,8 +13,8 @@ namespace GOLStartUpTemplate1
     public partial class Form1 : Form
     {
         // Initialize arrays
-        Cell[,] universe = new Cell[100, 100];
-        Cell[,] scratchPad = new Cell[100, 100];
+        Cell[,] universe = new Cell[50, 50];
+        Cell[,] scratchPad = new Cell[50, 50];
 
         // Drawing colors
         Color gridColor;
@@ -28,6 +28,10 @@ namespace GOLStartUpTemplate1
 
         // Seed for random by seed
         int seed = 0;
+
+        // Bools
+        bool isFinite = true;
+        bool showGrid = true;
 
         public Form1()
         {
@@ -56,7 +60,14 @@ namespace GOLStartUpTemplate1
             {
                 for (int iy = 0; iy < universe.GetLength(1); iy++)
                 {
-                    count = countNeighborsFinite(ix, iy);
+                    if (isFinite)
+                    {
+                        count = countNeighborsFinite(ix, iy);
+                    }
+                    else
+                    {
+                        count = CountNeighborsToroidal(ix, iy);
+                    }                    
 
                     //if the cell is alive and has less than 2 or more than 3 neighbors
                     if (universe[ix, iy].isAlive == true && (count < 2 || count > 3))
@@ -232,13 +243,13 @@ namespace GOLStartUpTemplate1
                     // if xCheck is less than 0 then set to xLen - 1
                     if (xCheck < 0)
                     {
-                        xLen = -1;
+                        xCheck = xLen - 1;
                     }
 
                     // if yCheck is less than 0 then set to yLen - 1
                     if (yCheck < 0)
                     {
-                        yLen = -1;
+                        yCheck = yLen - 1;
                     }
 
                     // if xCheck is greater than or equal too xLen then set to 0
@@ -444,6 +455,18 @@ namespace GOLStartUpTemplate1
             graphicsPanel1.BackColor = Properties.Settings.Default.BackgroundColor;
             gridColor = Properties.Settings.Default.GridColor;
             cellColor = Properties.Settings.Default.CellColor;
+        }
+
+        private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            isFinite = true;
+            toroidalToolStripMenuItem.Checked = false;
+        }
+
+        private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            isFinite = false;
+            finiteToolStripMenuItem.Checked = false;
         }
     }
 }
