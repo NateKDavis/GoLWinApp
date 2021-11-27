@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace GOLStartUpTemplate1
 {
 
-    public partial class ModalDialog : Form
+    public partial class ModalDialogSeed : Form
     {
         // Seed Property
         public int Seed
@@ -20,7 +20,7 @@ namespace GOLStartUpTemplate1
             set { SeedNumBox.Value = value; }
         }
 
-        public ModalDialog()
+        public ModalDialogSeed()
         {
             InitializeComponent();
         }        

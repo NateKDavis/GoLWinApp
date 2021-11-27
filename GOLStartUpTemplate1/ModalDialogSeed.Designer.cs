@@ -1,7 +1,7 @@
 ﻿
 namespace GOLStartUpTemplate1
 {
-    partial class ModalDialog
+    partial class ModalDialogSeed
     {
         /// <summary>
         /// Required designer variable.
@@ -52,7 +52,7 @@ namespace GOLStartUpTemplate1
             // 
             this.Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Cancel.Location = new System.Drawing.Point(206, 126);
+            this.Cancel.Location = new System.Drawing.Point(216, 126);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(75, 23);
             this.Cancel.TabIndex = 1;
@@ -80,7 +80,7 @@ namespace GOLStartUpTemplate1
             this.SeedNumBox.Size = new System.Drawing.Size(120, 20);
             this.SeedNumBox.TabIndex = 3;
             // 
-            // ModalDialog
+            // ModalDialogSeed
             // 
             this.AcceptButton = this.OK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -94,7 +94,7 @@ namespace GOLStartUpTemplate1
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ModalDialog";
+            this.Name = "ModalDialogSeed";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Seed";
             ((System.ComponentModel.ISupportInitialize)(this.SeedNumBox)).EndInit();

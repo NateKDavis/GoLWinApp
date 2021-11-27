@@ -42,8 +42,7 @@ namespace GOLStartUpTemplate1
             gridColor = Properties.Settings.Default.GridColor;
             cellColor = Properties.Settings.Default.CellColor;
 
-            Fill2DCellArray(universe);
-            Fill2DCellArray(scratchPad);
+            NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
 
             // Setup the timer
             timer.Interval = 100; // milliseconds
@@ -338,8 +337,14 @@ namespace GOLStartUpTemplate1
         }
 
         // Pauses and resets the universe and generation count
-        private void NewUniverse()
+        private void NewUniverse(int x, int y)
         {
+            universe = new Cell[x, y];
+            scratchPad = new Cell[x, y];
+
+            Fill2DCellArray(universe);
+            Fill2DCellArray(scratchPad);
+
             timer.Enabled = false;
             generations = 0;
 
@@ -355,7 +360,7 @@ namespace GOLStartUpTemplate1
             graphicsPanel1.Invalidate();
         }
 
-        #region Tooltip Buttons
+        #region Toolbar Buttons
         private void StartButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
@@ -373,17 +378,17 @@ namespace GOLStartUpTemplate1
 
         private void NewUniverseButton_Click(object sender, EventArgs e)
         {
-            NewUniverse();
+            NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
         }
 
         private void randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ModalDialog dlg = new ModalDialog();
+            ModalDialogSeed dlg = new ModalDialogSeed();
             dlg.Seed = seed;
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 seed = dlg.Seed;
-                NewUniverse();
+                NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
                 RandomUniverseRandNumSeed();
                 graphicsPanel1.Invalidate();
             }
@@ -391,7 +396,7 @@ namespace GOLStartUpTemplate1
 
         private void randomFromTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NewUniverse();
+            NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
             RandomUniverseTimeSeed();
         }
 
@@ -451,7 +456,6 @@ namespace GOLStartUpTemplate1
 
             Properties.Settings.Default.Save();
         }
-        #endregion
 
         private void resetAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -476,6 +480,23 @@ namespace GOLStartUpTemplate1
         {
             showGrid = !showGrid;
             graphicsPanel1.Invalidate();
+        }
+        #endregion
+
+        private void sizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModalDialogSize dlg = new ModalDialogSize();
+            dlg.UniverseWidth = Properties.Settings.Default.UniverseWidth;
+            dlg.UniverseHeight = Properties.Settings.Default.UniverseHeight;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                Properties.Settings.Default.UniverseWidth = dlg.UniverseWidth;
+                Properties.Settings.Default.UniverseHeight = dlg.UniverseHeight;
+
+                NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
+                graphicsPanel1.Invalidate();
+            }
         }
     }
 }
