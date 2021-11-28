@@ -12,26 +12,22 @@ namespace GOLStartUpTemplate1
 {
     public partial class Form1 : Form
     {
-        // Initialize arrays
-        Cell[,] universe = new Cell[50, 50];
-        Cell[,] scratchPad = new Cell[50, 50];
+        #region Initializations
+        Cell[,] universe = new Cell[50, 50]; // Shown array
+        Cell[,] scratchPad = new Cell[50, 50]; // Array to hold the next gen
 
-        // Drawing colors
         Color gridColor;
         Color cellColor;
 
         // The Timer class
         Timer timer = new Timer();
 
-        // Generation count
         int generations = 0;
-
-        // Seed for random by seed
         int seed = 0;
 
-        // Bools
         bool isFinite = true;
         bool showGrid = true;
+        #endregion
 
         public Form1()
         {
@@ -68,19 +64,19 @@ namespace GOLStartUpTemplate1
                         count = CountNeighborsToroidal(ix, iy);
                     }                    
 
-                    //if the cell is alive and has less than 2 or more than 3 neighbors
+                    // If the cell is alive and has less than 2 or more than 3 neighbors
                     if (universe[ix, iy].isAlive == true && (count < 2 || count > 3))
                     {
                         scratchPad[ix, iy].isAlive = false;
                     }
 
-                    //if the cell is alive and has 2 or 3 neighbors
+                    // If the cell is alive and has 2 or 3 neighbors
                     if (universe[ix, iy].isAlive == true && (count == 2 || count == 3))
                     {
                         scratchPad[ix, iy].isAlive = true;
                     }
 
-                    //if the cell is dead and has 3 neighbors
+                    // If the cell is dead and has 3 neighbors
                     if (universe[ix, iy].isAlive == false && count == 3)
                     {
                         scratchPad[ix, iy].isAlive = true;
@@ -104,7 +100,6 @@ namespace GOLStartUpTemplate1
                 }
             }
 
-            // Increment generation count
             generations++;
 
             // Update status strip generations
@@ -117,6 +112,7 @@ namespace GOLStartUpTemplate1
             NextGeneration();
         }
 
+        // Calculates cell size and paints them
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
             // Calculate the width and height of each cell in pixels
@@ -163,6 +159,7 @@ namespace GOLStartUpTemplate1
             cellBrush.Dispose();
         }
 
+        // Calculates what cell is being clicked
         private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
         {
             // If the left mouse button was clicked
@@ -186,6 +183,7 @@ namespace GOLStartUpTemplate1
             }
         }
 
+        // Counts neighbors if the universe ends at the edges
         private int countNeighborsFinite(int x, int y)
         {
             int neighbors = 0;
@@ -199,19 +197,19 @@ namespace GOLStartUpTemplate1
                     int xCheck = x + xOffset;
                     int yCheck = y + yOffset;
 
-                    // if xOffset and yOffset are both equal to 0 then continue
+                    // If xOffset and yOffset are both equal to 0 then continue
                     if (xOffset == 0 && yOffset == 0)
                     {
                         continue;
                     }
 
-                    // if xCheck or yCheck is less than 0 then continue
+                    // If xCheck or yCheck is less than 0 then continue
                     if (xCheck < 0 || yCheck < 0)
                     {
                         continue;
                     }
 
-                    // if xCheck or yCheck is greater than or equal too xLen or YLen then continue
+                    // If xCheck or yCheck is greater than or equal too xLen or YLen then continue
                     if (xCheck >= xLen || yCheck >= yLen)
                     {
                         continue;
@@ -224,11 +222,13 @@ namespace GOLStartUpTemplate1
             return neighbors;
         }
 
+        // Counts neighbors if the universe wraps at the edges
         private int CountNeighborsToroidal(int x, int y)
         {
             int neighbors = 0;
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
+
             for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
                 for (int xOffset = -1; xOffset <= 1; xOffset++)
@@ -272,7 +272,7 @@ namespace GOLStartUpTemplate1
             return neighbors;
         }
 
-        // Fills a 2D Cell arrays with new cells
+        // Fills a 2D Cell array with new cells
         private void Fill2DCellArray(Cell[,] array)
         {
             for (int ix = 0; ix < array.GetLength(0); ix++)
@@ -360,51 +360,16 @@ namespace GOLStartUpTemplate1
             graphicsPanel1.Invalidate();
         }
 
-        #region Toolbar Buttons
-        private void StartButton_Click(object sender, EventArgs e)
-        {
-            timer.Enabled = true;
-        }
+        #region Toolbar
 
-        private void PauseButton_Click(object sender, EventArgs e)
-        {
-            timer.Enabled = false;
-        }
-
-        private void NextGenerationButton_Click(object sender, EventArgs e)
-        {
-            NextGeneration();
-        }
-
-        private void NewUniverseButton_Click(object sender, EventArgs e)
-        {
-            NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
-        }
-
-        private void randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ModalDialogSeed dlg = new ModalDialogSeed();
-            dlg.Seed = seed;
-            if (DialogResult.OK == dlg.ShowDialog())
-            {
-                seed = dlg.Seed;
-                NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
-                RandomUniverseRandNumSeed();
-                graphicsPanel1.Invalidate();
-            }
-        }
-
-        private void randomFromTimeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
-            RandomUniverseTimeSeed();
-        }
-
+        #region File
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+        #endregion
 
+        #region Colors
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -443,45 +408,32 @@ namespace GOLStartUpTemplate1
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            graphicsPanel1.BackColor = Properties.Settings.Default.BackgroundColor;
-            gridColor = Properties.Settings.Default.GridColor;
-            cellColor = Properties.Settings.Default.CellColor;
+            graphicsPanel1.BackColor = DefaultBackColor;
+            gridColor = Color.Black;
+            cellColor = Color.Gray;
         }
+        #endregion
 
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Properties.Settings.Default.BackgroundColor = graphicsPanel1.BackColor;
-            Properties.Settings.Default.GridColor = gridColor;
-            Properties.Settings.Default.CellColor = cellColor;
-
-            Properties.Settings.Default.Save();
-        }
-
-        private void resetAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            graphicsPanel1.BackColor = Properties.Settings.Default.BackgroundColor;
-            gridColor = Properties.Settings.Default.GridColor;
-            cellColor = Properties.Settings.Default.CellColor;
-        }
-
+        #region Universe
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            isFinite = true;
-            toroidalToolStripMenuItem.Checked = false;
+            if (isFinite == false)
+            {
+                isFinite = true;
+                finiteToolStripMenuItem.Checked = true;
+                toroidalToolStripMenuItem.Checked = false;
+            }
         }
 
         private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            isFinite = false;
-            finiteToolStripMenuItem.Checked = false;
+            if (isFinite == true)
+            {
+                isFinite = false;
+                toroidalToolStripMenuItem.Checked = true;
+                finiteToolStripMenuItem.Checked = false;
+            }
         }
-
-        private void showGridToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            showGrid = !showGrid;
-            graphicsPanel1.Invalidate();
-        }
-        #endregion
 
         private void sizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -498,5 +450,66 @@ namespace GOLStartUpTemplate1
                 graphicsPanel1.Invalidate();
             }
         }
+        #endregion
+
+        #region View
+        private void showGridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showGrid = !showGrid;
+            graphicsPanel1.Invalidate();
+        }
+        #endregion
+
+        private void NewUniverseButton_Click(object sender, EventArgs e)
+        {
+            NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
+        }
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = true;
+        }
+
+        private void PauseButton_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
+        }
+
+        private void NextGenerationButton_Click(object sender, EventArgs e)
+        {
+            NextGeneration();
+        }
+
+        #region Random
+        private void randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModalDialogSeed dlg = new ModalDialogSeed();
+            dlg.Seed = seed;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                seed = dlg.Seed;
+                NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
+                RandomUniverseRandNumSeed();
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void randomFromTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
+            RandomUniverseTimeSeed();
+        }
+        #endregion
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.BackgroundColor = graphicsPanel1.BackColor;
+            Properties.Settings.Default.GridColor = gridColor;
+            Properties.Settings.Default.CellColor = cellColor;
+
+            Properties.Settings.Default.Save();
+        }
+        #endregion
     }
 }
