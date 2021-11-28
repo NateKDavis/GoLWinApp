@@ -24,6 +24,7 @@ namespace GOLStartUpTemplate1
 
         int generations = 0;
         int seed = 0;
+        int numLiving = 0;
 
         bool isFinite = true;
         bool showGrid = true;
@@ -89,8 +90,6 @@ namespace GOLStartUpTemplate1
             universe = scratchPad;
             scratchPad = temp;
 
-            graphicsPanel1.Invalidate();
-
             // clear the scratchPad
             for (int ix = 0; ix < scratchPad.GetLength(0); ix++)
             {
@@ -101,9 +100,11 @@ namespace GOLStartUpTemplate1
             }
 
             generations++;
+            AliveCellCount();
 
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            graphicsPanel1.Invalidate();
         }
 
         // The event called by the timer every Interval milliseconds.
@@ -178,7 +179,9 @@ namespace GOLStartUpTemplate1
                 // Toggle the cell's state
                 universe[x, y].isAlive = !universe[x, y].isAlive;
 
-                // Tell Windows you need to repaint
+                numLiving++;
+                toolStripStatusLabelAliveCells.Text = "Alive Cells = " + numLiving.ToString();
+
                 graphicsPanel1.Invalidate();
             }
         }
@@ -307,6 +310,7 @@ namespace GOLStartUpTemplate1
                 }
             }
 
+            AliveCellCount();
             graphicsPanel1.Invalidate();
         }
 
@@ -333,6 +337,7 @@ namespace GOLStartUpTemplate1
                 }
             }
 
+            AliveCellCount();
             graphicsPanel1.Invalidate();
         }
 
@@ -347,6 +352,7 @@ namespace GOLStartUpTemplate1
 
             timer.Enabled = false;
             generations = 0;
+            numLiving = 0;
 
             for (int ix = 0; ix < universe.GetLength(0); ix++)
             {
@@ -356,8 +362,27 @@ namespace GOLStartUpTemplate1
                 }
             }
 
-            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
             graphicsPanel1.Invalidate();
+            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            toolStripStatusLabelAliveCells.Text = "Alive Cells = " + numLiving.ToString();
+        }
+
+        private void AliveCellCount()
+        {
+            numLiving = 0;
+
+            for (int ix = 0; ix < universe.GetLength(0); ix++)
+            {
+                for (int iy = 0; iy < universe.GetLength(1); iy++)
+                {
+                    if (universe[ix, iy].isAlive == true)
+                    {
+                        numLiving++;
+                    }
+                }
+            }
+
+            toolStripStatusLabelAliveCells.Text = "Alive Cells = " + numLiving.ToString();            
         }
 
         #region Toolbar

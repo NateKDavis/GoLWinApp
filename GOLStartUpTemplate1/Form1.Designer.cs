@@ -76,6 +76,7 @@ namespace GOLStartUpTemplate1
             this.gridToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.graphicsPanel1 = new GOLStartUpTemplate1.GraphicsPanel();
+            this.toolStripStatusLabelAliveCells = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -277,7 +278,7 @@ namespace GOLStartUpTemplate1
             this.showGridToolStripMenuItem.CheckOnClick = true;
             this.showGridToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showGridToolStripMenuItem.Name = "showGridToolStripMenuItem";
-            this.showGridToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.showGridToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showGridToolStripMenuItem.Text = "Show Grid";
             this.showGridToolStripMenuItem.Click += new System.EventHandler(this.showGridToolStripMenuItem_Click);
             // 
@@ -399,7 +400,8 @@ namespace GOLStartUpTemplate1
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabelGenerations});
+            this.toolStripStatusLabelGenerations,
+            this.toolStripStatusLabelAliveCells});
             this.statusStrip1.Location = new System.Drawing.Point(0, 323);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(573, 22);
@@ -469,6 +471,12 @@ namespace GOLStartUpTemplate1
             this.graphicsPanel1.TabIndex = 3;
             this.graphicsPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicsPanel1_Paint);
             this.graphicsPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.graphicsPanel1_MouseClick);
+            // 
+            // toolStripStatusLabelAliveCells
+            // 
+            this.toolStripStatusLabelAliveCells.Name = "toolStripStatusLabelAliveCells";
+            this.toolStripStatusLabelAliveCells.Size = new System.Drawing.Size(81, 17);
+            this.toolStripStatusLabelAliveCells.Text = "Alive Cells = 0";
             // 
             // Form1
             // 
@@ -542,6 +550,7 @@ namespace GOLStartUpTemplate1
         private System.Windows.Forms.ToolStripMenuItem toroidalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showGridToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelAliveCells;
     }
 }
 
