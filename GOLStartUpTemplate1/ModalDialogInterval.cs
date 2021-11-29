@@ -10,18 +10,18 @@ using System.Windows.Forms;
 
 namespace GOLStartUpTemplate1
 {
-    public partial class ModalDialogSeed : Form
+    public partial class ModalDialogInterval : Form
     {
         // Seed Property
-        public int Seed
+        public int Interval
         {
-            get { return (int)SeedNumBox.Value; }
-            set { SeedNumBox.Value = value; }
+            get { return (int)IntervalNum.Value; }
+            set { IntervalNum.Value = value; }
         }
 
-        public ModalDialogSeed()
+        public ModalDialogInterval()
         {
             InitializeComponent();
-        }        
+        }
     }
 }

@@ -43,7 +43,7 @@ namespace GOLStartUpTemplate1
             NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
 
             // Setup the timer
-            timer.Interval = 100; // milliseconds
+            timer.Interval = Properties.Settings.Default.Interval; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
         }
@@ -474,6 +474,18 @@ namespace GOLStartUpTemplate1
 
                 NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
                 graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void speedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModalDialogInterval dlg = new ModalDialogInterval();
+            dlg.Interval = Properties.Settings.Default.Interval;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                Properties.Settings.Default.Interval = dlg.Interval;
+                timer.Interval = Properties.Settings.Default.Interval;
             }
         }
         #endregion
