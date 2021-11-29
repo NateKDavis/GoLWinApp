@@ -28,7 +28,6 @@ namespace GOLStartUpTemplate1
         int numLiving = 0;
 
         bool isFinite = true;
-        bool showGrid = true;
         #endregion
 
         public Form1()
@@ -129,6 +128,11 @@ namespace GOLStartUpTemplate1
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
 
+            Single fontSize = (graphicsPanel1.ClientSize.Height / (float)universe.GetLength(1)) / (float)2;
+            Font font = new Font("Arial", fontSize);
+
+            StringFormat stringFormat = new StringFormat();
+
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -148,10 +152,41 @@ namespace GOLStartUpTemplate1
                         e.Graphics.FillRectangle(cellBrush, cellRect);
                     }
 
-                    if (showGrid == true)
+                    if (Properties.Settings.Default.ShowGrid == true)
                     {
                         // Outline the cell with a pen
                         e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    }
+
+                    if (Properties.Settings.Default.ShowNeighborCount == true)
+                    {
+                        stringFormat.Alignment = StringAlignment.Center;
+                        stringFormat.LineAlignment = StringAlignment.Center;
+
+                        RectangleF rect = new RectangleF(cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                        int neighbors = 0;
+
+                        if (isFinite)
+                        {
+                            neighbors = countNeighborsFinite(x, y);
+                        }
+                        else
+                        {
+                            neighbors = CountNeighborsToroidal(x, y);
+                        }
+
+                        if (neighbors != 0)
+                        {
+                            if ((neighbors == 2 && universe[x, y].isAlive == true) || neighbors == 3)
+                            {
+                                e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Green, rect, stringFormat);
+                            }
+                            else
+                            {
+                                e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, rect, stringFormat);
+                            }
+                            
+                        }                        
                     }
                 }
             }
@@ -177,10 +212,19 @@ namespace GOLStartUpTemplate1
                 // CELL Y = MOUSE Y / CELL HEIGHT
                 int y = (int)(e.Y / cellHeight);
 
+                if (universe[x, y].isAlive == false)
+                {
+                    numLiving++;
+                }
+                else
+                {
+                    numLiving--;
+                }
+
                 // Toggle the cell's state
                 universe[x, y].isAlive = !universe[x, y].isAlive;
 
-                numLiving++;
+                
                 toolStripStatusLabelAliveCells.Text = "Alive Cells = " + numLiving.ToString();
 
                 graphicsPanel1.Invalidate();
@@ -493,7 +537,13 @@ namespace GOLStartUpTemplate1
         #region View
         private void showGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            showGrid = !showGrid;
+            Properties.Settings.Default.ShowGrid = !Properties.Settings.Default.ShowGrid;
+            graphicsPanel1.Invalidate();
+        }
+
+        private void showNeighborCountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ShowNeighborCount = !Properties.Settings.Default.ShowNeighborCount;
             graphicsPanel1.Invalidate();
         }
         #endregion

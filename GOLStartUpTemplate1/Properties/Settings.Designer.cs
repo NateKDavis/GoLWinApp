@@ -94,5 +94,29 @@ namespace GOLStartUpTemplate1.Properties {
                 this["Interval"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowGrid {
+            get {
+                return ((bool)(this["ShowGrid"]));
+            }
+            set {
+                this["ShowGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowNeighborCount {
+            get {
+                return ((bool)(this["ShowNeighborCount"]));
+            }
+            set {
+                this["ShowNeighborCount"] = value;
+            }
+        }
     }
 }
