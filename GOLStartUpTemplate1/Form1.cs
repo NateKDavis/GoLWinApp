@@ -38,6 +38,18 @@ namespace GOLStartUpTemplate1
             gridColor = Properties.Settings.Default.GridColor;
             cellColor = Properties.Settings.Default.CellColor;
 
+            // Loading correct checked states for the toolbar
+            if (isFinite == true)
+            {
+                finiteToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                toroidalToolStripMenuItem.Checked = true;
+            }
+            showGridToolStripMenuItem.Checked = Properties.Settings.Default.ShowGrid;
+            showNeighborCountToolStripMenuItem.Checked = Properties.Settings.Default.ShowNeighborCount;
+
             NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
 
             // Setup the timer
