@@ -20,14 +20,13 @@ namespace GOLStartUpTemplate1
         Color gridColor;
         Color cellColor;
 
-        // The Timer class
         Timer timer = new Timer();
 
         int generations = 0;
         int seed = 0;
         int numLiving = 0;
 
-        bool isFinite = true;
+        bool isFinite = true; // Toggle for finite or toridal universe
         #endregion
 
         public Form1()
@@ -44,7 +43,6 @@ namespace GOLStartUpTemplate1
             // Setup the timer
             timer.Interval = Properties.Settings.Default.Interval; // milliseconds
             timer.Tick += Timer_Tick;
-            timer.Enabled = false; // start timer running
         }
 
         // Calculate the next generation of cells
@@ -52,10 +50,12 @@ namespace GOLStartUpTemplate1
         {
             int count = 0;
 
+            // Loops through the universe
             for (int ix = 0; ix < universe.GetLength(0); ix++)
             {
                 for (int iy = 0; iy < universe.GetLength(1); iy++)
                 {
+                    // Which count to use
                     if (isFinite)
                     {
                         count = countNeighborsFinite(ix, iy);
@@ -102,9 +102,8 @@ namespace GOLStartUpTemplate1
             generations++;
             AliveCellCount();
 
-            // Update status strip generations
-            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
             graphicsPanel1.Invalidate();
+            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
         }
 
         // The event called by the timer every Interval milliseconds.
@@ -113,7 +112,7 @@ namespace GOLStartUpTemplate1
             NextGeneration();
         }
 
-        // Calculates cell size and paints them
+        // Calculates cell size and paints Cells
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
             // Calculate the width and height of each cell in pixels
@@ -128,6 +127,7 @@ namespace GOLStartUpTemplate1
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
 
+            // Font for displaying neighbor counts
             Single fontSize = (graphicsPanel1.ClientSize.Height / (float)universe.GetLength(1)) / (float)2;
             Font font = new Font("Arial", fontSize);
 
@@ -177,23 +177,26 @@ namespace GOLStartUpTemplate1
 
                         if (neighbors != 0)
                         {
+                            // If cell should live or become alive, make text green
                             if ((neighbors == 2 && universe[x, y].isAlive == true) || neighbors == 3)
                             {
                                 e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Green, rect, stringFormat);
                             }
+                            // If cell should die or be dead, make text red
                             else
                             {
                                 e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, rect, stringFormat);
-                            }
-                            
+                            }                            
                         }                        
                     }
                 }
             }
 
-            // Cleaning up pens and brushes
+            // Cleaning up
             gridPen.Dispose();
             cellBrush.Dispose();
+            font.Dispose();
+            stringFormat.Dispose();
         }
 
         // Calculates what cell is being clicked
@@ -223,11 +226,9 @@ namespace GOLStartUpTemplate1
 
                 // Toggle the cell's state
                 universe[x, y].isAlive = !universe[x, y].isAlive;
-
                 
-                toolStripStatusLabelAliveCells.Text = "Alive Cells = " + numLiving.ToString();
-
                 graphicsPanel1.Invalidate();
+                toolStripStatusLabelAliveCells.Text = "Alive Cells = " + numLiving.ToString();
             }
         }
 
@@ -317,6 +318,7 @@ namespace GOLStartUpTemplate1
                     if (universe[xCheck, yCheck].isAlive == true) neighbors++;
                 }
             }
+
             return neighbors;
         }
 
@@ -386,9 +388,10 @@ namespace GOLStartUpTemplate1
             graphicsPanel1.Invalidate();
         }
 
-        // Pauses and resets the universe and generation count
+        // Pauses and resets the universe and counts
         private void NewUniverse(int x, int y)
         {
+            // New Arrays 
             universe = new Cell[x, y];
             scratchPad = new Cell[x, y];
 
@@ -399,19 +402,12 @@ namespace GOLStartUpTemplate1
             generations = 0;
             numLiving = 0;
 
-            for (int ix = 0; ix < universe.GetLength(0); ix++)
-            {
-                for (int iy = 0; iy < universe.GetLength(1); iy++)
-                {
-                    universe[ix, iy].isAlive = false;
-                }
-            }
-
             graphicsPanel1.Invalidate();
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
             toolStripStatusLabelAliveCells.Text = "Alive Cells = " + numLiving.ToString();
         }
 
+        // Counts the number of cells alive in the universe
         private void AliveCellCount()
         {
             numLiving = 0;
@@ -492,6 +488,7 @@ namespace GOLStartUpTemplate1
                 isFinite = true;
                 finiteToolStripMenuItem.Checked = true;
                 toroidalToolStripMenuItem.Checked = false;
+                graphicsPanel1.Invalidate();
             }
         }
 
@@ -502,6 +499,7 @@ namespace GOLStartUpTemplate1
                 isFinite = false;
                 toroidalToolStripMenuItem.Checked = true;
                 finiteToolStripMenuItem.Checked = false;
+                graphicsPanel1.Invalidate();
             }
         }
 
@@ -645,7 +643,6 @@ namespace GOLStartUpTemplate1
             dlg.Filter = "All Files|*.*|Cells|*.cells";
             dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
 
-
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 StreamWriter writer = new StreamWriter(dlg.FileName);
@@ -693,11 +690,17 @@ namespace GOLStartUpTemplate1
         private void StartButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
+            Start.Visible = false;
+            Pause.Visible = true;
+            NextGenerationButton.Enabled = false;
         }
 
         private void PauseButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = false;
+            Pause.Visible = false;
+            Start.Visible = true;
+            NextGenerationButton.Enabled = true;
         }
 
         private void NextGenerationButton_Click(object sender, EventArgs e)
@@ -732,7 +735,6 @@ namespace GOLStartUpTemplate1
             Properties.Settings.Default.BackgroundColor = graphicsPanel1.BackColor;
             Properties.Settings.Default.GridColor = gridColor;
             Properties.Settings.Default.CellColor = cellColor;
-
             Properties.Settings.Default.Save();
         }
         #endregion
