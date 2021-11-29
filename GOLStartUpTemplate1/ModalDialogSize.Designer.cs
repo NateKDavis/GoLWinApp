@@ -113,7 +113,7 @@ namespace GOLStartUpTemplate1
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.OK);
             this.Name = "ModalDialogSize";
-            this.Text = "ModalDialogSize";
+            this.Text = "Universe Size";
             ((System.ComponentModel.ISupportInitialize)(this.WidthNum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.HeightNum)).EndInit();
             this.ResumeLayout(false);
