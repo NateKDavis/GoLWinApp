@@ -118,5 +118,17 @@ namespace GOLStartUpTemplate1.Properties {
                 this["ShowNeighborCount"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowHUD {
+            get {
+                return ((bool)(this["ShowHUD"]));
+            }
+            set {
+                this["ShowHUD"] = value;
+            }
+        }
     }
 }

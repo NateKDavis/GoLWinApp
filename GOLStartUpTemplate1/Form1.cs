@@ -49,6 +49,7 @@ namespace GOLStartUpTemplate1
             }
             showGridToolStripMenuItem.Checked = Properties.Settings.Default.ShowGrid;
             showNeighborCountToolStripMenuItem.Checked = Properties.Settings.Default.ShowNeighborCount;
+            showHUDToolStripMenuItem.Checked = Properties.Settings.Default.ShowHUD;
 
             NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
 
@@ -142,8 +143,18 @@ namespace GOLStartUpTemplate1
             // Font for displaying neighbor counts
             Single fontSize = (graphicsPanel1.ClientSize.Height / (float)universe.GetLength(1)) / (float)2;
             Font font = new Font("Arial", fontSize);
-
             StringFormat stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
+
+            // Font for displaying the HUD
+            Font hudFont = new Font("Arial", 20);
+            StringFormat hudStringFormat = new StringFormat();
+            hudStringFormat.Alignment = StringAlignment.Near;
+            hudStringFormat.LineAlignment = StringAlignment.Far;
+
+            // String for HUD
+            string universeType;
 
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -170,11 +181,9 @@ namespace GOLStartUpTemplate1
                         e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                     }
 
+                    // Neighnor count painting
                     if (Properties.Settings.Default.ShowNeighborCount == true)
                     {
-                        stringFormat.Alignment = StringAlignment.Center;
-                        stringFormat.LineAlignment = StringAlignment.Center;
-
                         RectangleF rect = new RectangleF(cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                         int neighbors = 0;
 
@@ -198,10 +207,28 @@ namespace GOLStartUpTemplate1
                             else
                             {
                                 e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, rect, stringFormat);
-                            }                            
-                        }                        
+                            }
+                        }
                     }
                 }
+            }
+
+            if (isFinite == true)
+            {
+                universeType = "finite";
+            }
+            else
+            {
+                universeType = "toroidal";
+            }
+
+            // HUD painting
+            if (Properties.Settings.Default.ShowHUD == true)
+            {
+                e.Graphics.DrawString("Universe type: " + universeType + "\n" +
+                                      "Universe Size: " + Properties.Settings.Default.UniverseHeight + ", " + Properties.Settings.Default.UniverseWidth + "\n" +
+                                      "Living Cells: " + numLiving + "\n" +
+                                      "Generation: " + generations, hudFont, Brushes.Black, graphicsPanel1.ClientRectangle, hudStringFormat);
             }
 
             // Cleaning up
@@ -209,6 +236,8 @@ namespace GOLStartUpTemplate1
             cellBrush.Dispose();
             font.Dispose();
             stringFormat.Dispose();
+            hudFont.Dispose();
+            hudStringFormat.Dispose();
         }
 
         // Calculates what cell is being clicked
@@ -407,10 +436,15 @@ namespace GOLStartUpTemplate1
             universe = new Cell[x, y];
             scratchPad = new Cell[x, y];
 
+            // Fill with dead cells
             Fill2DCellArray(universe);
             Fill2DCellArray(scratchPad);
 
+            // Reset settings correctly
             timer.Enabled = false;
+            Pause.Visible = false;
+            Start.Visible = true;
+            NextGenerationButton.Enabled = true;
             generations = 0;
             numLiving = 0;
 
@@ -525,7 +559,7 @@ namespace GOLStartUpTemplate1
             {
                 Properties.Settings.Default.UniverseWidth = dlg.UniverseWidth;
                 Properties.Settings.Default.UniverseHeight = dlg.UniverseHeight;
-
+                
                 NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
                 graphicsPanel1.Invalidate();
             }
@@ -554,6 +588,12 @@ namespace GOLStartUpTemplate1
         private void showNeighborCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.ShowNeighborCount = !Properties.Settings.Default.ShowNeighborCount;
+            graphicsPanel1.Invalidate();
+        }
+
+        private void showHUDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ShowHUD = !Properties.Settings.Default.ShowHUD;
             graphicsPanel1.Invalidate();
         }
         #endregion
