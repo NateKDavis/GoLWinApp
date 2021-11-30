@@ -226,9 +226,10 @@ namespace GOLStartUpTemplate1
             if (Properties.Settings.Default.ShowHUD == true)
             {
                 e.Graphics.DrawString("Universe type: " + universeType + "\n" +
-                                      "Universe Size: " + Properties.Settings.Default.UniverseHeight + ", " + Properties.Settings.Default.UniverseWidth + "\n" +
+                                      "Universe Size(HxW): " + Properties.Settings.Default.UniverseHeight + ", " + Properties.Settings.Default.UniverseWidth + "\n" +
                                       "Living Cells: " + numLiving + "\n" +
-                                      "Generation: " + generations, hudFont, Brushes.Black, graphicsPanel1.ClientRectangle, hudStringFormat);
+                                      "Generation: " + generations + "\n" +
+                                      "Universe Colors | Back: " + graphicsPanel1.BackColor + ", Cell: " + cellColor + ", Grid: " + gridColor, hudFont, Brushes.Black, graphicsPanel1.ClientRectangle, hudStringFormat);
             }
 
             // Cleaning up
@@ -517,6 +518,30 @@ namespace GOLStartUpTemplate1
                 graphicsPanel1.Invalidate();
             }
         }
+
+        #region Color Presets
+        private void ikeaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            graphicsPanel1.BackColor = Color.DarkBlue;
+            cellColor = Color.Yellow;
+            gridColor = Color.DarkBlue;
+            graphicsPanel1.Invalidate();
+        }
+        private void discoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            graphicsPanel1.BackColor = Color.Purple;
+            cellColor = Color.Blue;
+            gridColor = Color.Black;
+            graphicsPanel1.Invalidate();
+        }
+        private void flowerFieldToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            graphicsPanel1.BackColor = Color.Green;
+            cellColor = Color.Pink;
+            gridColor = Color.Black;
+            graphicsPanel1.Invalidate();
+        }
+        #endregion
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
