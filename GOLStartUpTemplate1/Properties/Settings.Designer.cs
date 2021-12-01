@@ -130,5 +130,29 @@ namespace GOLStartUpTemplate1.Properties {
                 this["ShowHUD"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowTrail {
+            get {
+                return ((bool)(this["ShowTrail"]));
+            }
+            set {
+                this["ShowTrail"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("224, 224, 224")]
+        public global::System.Drawing.Color TrailColor {
+            get {
+                return ((global::System.Drawing.Color)(this["TrailColor"]));
+            }
+            set {
+                this["TrailColor"] = value;
+            }
+        }
     }
 }

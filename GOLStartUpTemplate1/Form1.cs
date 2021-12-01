@@ -16,9 +16,11 @@ namespace GOLStartUpTemplate1
         #region Initializations
         Cell[,] universe = new Cell[50, 50]; // Shown array
         Cell[,] scratchPad = new Cell[50, 50]; // Array to hold the next gen
+        Cell[,] trailHolder = new Cell[50, 50]; // Array to hold where cells have been
 
         Color gridColor;
         Color cellColor;
+        Color trailColor;
 
         Timer timer = new Timer();
 
@@ -37,6 +39,7 @@ namespace GOLStartUpTemplate1
             graphicsPanel1.BackColor = Properties.Settings.Default.BackgroundColor;
             gridColor = Properties.Settings.Default.GridColor;
             cellColor = Properties.Settings.Default.CellColor;
+            trailColor = Properties.Settings.Default.TrailColor;
 
             // Loading correct checked states for the toolbar
             if (isFinite == true)
@@ -50,6 +53,7 @@ namespace GOLStartUpTemplate1
             showGridToolStripMenuItem.Checked = Properties.Settings.Default.ShowGrid;
             showNeighborCountToolStripMenuItem.Checked = Properties.Settings.Default.ShowNeighborCount;
             showHUDToolStripMenuItem.Checked = Properties.Settings.Default.ShowHUD;
+            showTrailToolStripMenuItem.Checked = Properties.Settings.Default.ShowTrail;
 
             NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
 
@@ -63,7 +67,7 @@ namespace GOLStartUpTemplate1
         {
             int count = 0;
 
-            // Loops through the universe
+            // Loops through the universe to calucluate the universes next generation
             for (int ix = 0; ix < universe.GetLength(0); ix++)
             {
                 for (int iy = 0; iy < universe.GetLength(1); iy++)
@@ -94,6 +98,18 @@ namespace GOLStartUpTemplate1
                     if (universe[ix, iy].isAlive == false && count == 3)
                     {
                         scratchPad[ix, iy].isAlive = true;
+                    }
+                }
+            }
+
+            // Loops through the universe to save the trail
+            for (int ix = 0; ix < universe.GetLength(0); ix++)
+            {
+                for (int iy = 0; iy < universe.GetLength(1); iy++)
+                {
+                    if (universe[ix, iy].isAlive == true)
+                    {
+                        trailHolder[ix, iy].isAlive = true;
                     }
                 }
             }
@@ -139,6 +155,7 @@ namespace GOLStartUpTemplate1
 
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
+            Brush trailBrush = new SolidBrush(trailColor);
 
             // Font for displaying neighbor counts
             Single fontSize = (graphicsPanel1.ClientSize.Height / (float)universe.GetLength(1)) / (float)2;
@@ -169,10 +186,14 @@ namespace GOLStartUpTemplate1
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
 
-                    // Fill the cell with a brush if alive
+                    // Fill the cell with a brush if alive else if a cell has been there fill it
                     if (universe[x, y].isAlive == true)
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
+                    }
+                    else if (trailHolder[x, y].isAlive == true && Properties.Settings.Default.ShowTrail == true)
+                    {
+                        e.Graphics.FillRectangle(trailBrush, cellRect);
                     }
 
                     if (Properties.Settings.Default.ShowGrid == true)
@@ -235,6 +256,7 @@ namespace GOLStartUpTemplate1
             // Cleaning up
             gridPen.Dispose();
             cellBrush.Dispose();
+            trailBrush.Dispose();
             font.Dispose();
             stringFormat.Dispose();
             hudFont.Dispose();
@@ -436,10 +458,12 @@ namespace GOLStartUpTemplate1
             // New Arrays 
             universe = new Cell[x, y];
             scratchPad = new Cell[x, y];
+            trailHolder = new Cell[x, y];
 
             // Fill with dead cells
             Fill2DCellArray(universe);
             Fill2DCellArray(scratchPad);
+            Fill2DCellArray(trailHolder);
 
             // Reset settings correctly
             timer.Enabled = false;
@@ -519,26 +543,43 @@ namespace GOLStartUpTemplate1
             }
         }
 
+        private void trailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = trailColor;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                trailColor = dlg.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
         #region Color Presets
         private void ikeaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             graphicsPanel1.BackColor = Color.DarkBlue;
             cellColor = Color.Yellow;
             gridColor = Color.DarkBlue;
+            trailColor = Color.LightGoldenrodYellow;
             graphicsPanel1.Invalidate();
         }
+
         private void discoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             graphicsPanel1.BackColor = Color.Purple;
             cellColor = Color.Blue;
             gridColor = Color.Black;
+            trailColor = Color.Yellow;
             graphicsPanel1.Invalidate();
         }
+
         private void flowerFieldToolStripMenuItem_Click(object sender, EventArgs e)
         {
             graphicsPanel1.BackColor = Color.Green;
-            cellColor = Color.Pink;
+            cellColor = Color.Red;
             gridColor = Color.Black;
+            trailColor = Color.Pink;
             graphicsPanel1.Invalidate();
         }
         #endregion
@@ -548,6 +589,7 @@ namespace GOLStartUpTemplate1
             graphicsPanel1.BackColor = DefaultBackColor;
             gridColor = Color.Black;
             cellColor = Color.Gray;
+            trailColor = Color.LightGray;
         }
         #endregion
 
@@ -619,6 +661,12 @@ namespace GOLStartUpTemplate1
         private void showHUDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.ShowHUD = !Properties.Settings.Default.ShowHUD;
+            graphicsPanel1.Invalidate();
+        }
+
+        private void showTrailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ShowTrail = !Properties.Settings.Default.ShowTrail;
             graphicsPanel1.Invalidate();
         }
         #endregion
@@ -812,6 +860,7 @@ namespace GOLStartUpTemplate1
             Properties.Settings.Default.BackgroundColor = graphicsPanel1.BackColor;
             Properties.Settings.Default.GridColor = gridColor;
             Properties.Settings.Default.CellColor = cellColor;
+            Properties.Settings.Default.TrailColor = trailColor;
             Properties.Settings.Default.Save();
         }
         #endregion
