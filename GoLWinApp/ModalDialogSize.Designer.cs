@@ -1,5 +1,5 @@
 ﻿
-namespace GOLStartUpTemplate1
+namespace GoLWinApp
 {
     partial class ModalDialogSize
     {
@@ -103,8 +103,10 @@ namespace GOLStartUpTemplate1
             // 
             // ModalDialogSize
             // 
+            this.AcceptButton = this.OK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.Cancel;
             this.ClientSize = new System.Drawing.Size(384, 161);
             this.Controls.Add(this.HeightLabel);
             this.Controls.Add(this.WidthLabel);

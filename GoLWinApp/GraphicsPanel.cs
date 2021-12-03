@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 // Change the namespace to your project's namespace.
-namespace GOLStartUpTemplate1
+namespace GoLWinApp
 {
     class GraphicsPanel : Panel
     {

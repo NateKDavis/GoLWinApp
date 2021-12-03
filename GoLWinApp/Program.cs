@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GOLStartUpTemplate1
+namespace GoLWinApp
 {
     static class Program
     {

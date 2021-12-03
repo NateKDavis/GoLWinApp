@@ -1,5 +1,5 @@
 ﻿
-namespace GOLStartUpTemplate1
+namespace GoLWinApp
 {
     partial class ModalDialogSeed
     {
@@ -62,7 +62,7 @@ namespace GOLStartUpTemplate1
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(113, 59);
+            this.label1.Location = new System.Drawing.Point(123, 57);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 2;

@@ -1,5 +1,5 @@
 ﻿
-namespace GOLStartUpTemplate1
+namespace GoLWinApp
 {
     partial class Form1
     {
@@ -87,7 +87,7 @@ namespace GOLStartUpTemplate1
             this.ikeaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.discoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.flowerFieldToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.graphicsPanel1 = new GOLStartUpTemplate1.GraphicsPanel();
+            this.graphicsPanel1 = new GoLWinApp.GraphicsPanel();
             this.showTrailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trailToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -403,7 +403,7 @@ namespace GOLStartUpTemplate1
             this.Start.AccessibleDescription = "Begins running the Game of Life";
             this.Start.AccessibleName = "Start";
             this.Start.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Start.Image = global::GOLStartUpTemplate1.Properties.Resources.StartWithoutDebug_16x;
+            this.Start.Image = global::GoLWinApp.Properties.Resources.StartWithoutDebug_16x;
             this.Start.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Start.Name = "Start";
             this.Start.Size = new System.Drawing.Size(23, 22);
@@ -413,7 +413,7 @@ namespace GOLStartUpTemplate1
             // Pause
             // 
             this.Pause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Pause.Image = global::GOLStartUpTemplate1.Properties.Resources.Pause_16x;
+            this.Pause.Image = global::GoLWinApp.Properties.Resources.Pause_16x;
             this.Pause.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Pause.Name = "Pause";
             this.Pause.Size = new System.Drawing.Size(23, 22);
@@ -424,7 +424,7 @@ namespace GOLStartUpTemplate1
             // NextGenerationButton
             // 
             this.NextGenerationButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.NextGenerationButton.Image = global::GOLStartUpTemplate1.Properties.Resources.NextFrameArrow_16x;
+            this.NextGenerationButton.Image = global::GoLWinApp.Properties.Resources.NextFrameArrow_16x;
             this.NextGenerationButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.NextGenerationButton.Name = "NextGenerationButton";
             this.NextGenerationButton.Size = new System.Drawing.Size(23, 22);
@@ -442,7 +442,7 @@ namespace GOLStartUpTemplate1
             this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.randomFromSeedToolStripMenuItem,
             this.randomFromTimeToolStripMenuItem});
-            this.toolStripSplitButton1.Image = global::GOLStartUpTemplate1.Properties.Resources.BubbleChart_16x;
+            this.toolStripSplitButton1.Image = global::GoLWinApp.Properties.Resources.BubbleChart_16x;
             this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
             this.toolStripSplitButton1.Size = new System.Drawing.Size(29, 22);

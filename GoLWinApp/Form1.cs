@@ -9,13 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GOLStartUpTemplate1
+namespace GoLWinApp
 {
     public partial class Form1 : Form
     {
         #region Initializations
         Cell[,] universe = new Cell[50, 50]; // Shown array
-        Cell[,] scratchPad = new Cell[50, 50]; // Array to hold the next gen
+        Cell[,] scratchPad = new Cell[50, 50]; // Array to hold the next generation
         Cell[,] trailHolder = new Cell[50, 50]; // Array to hold where cells have been
 
         Color gridColor;
@@ -24,9 +24,9 @@ namespace GOLStartUpTemplate1
 
         Timer timer = new Timer();
 
-        int generations = 0;
-        int seed = 0;
-        int numLiving = 0;
+        int generations = 0; // How many times the universe has been progressed
+        int seed = 0; // Number from user for random generation
+        int numLiving = 0; // How many cells are alive in the current generation
 
         bool isFinite = true; // Toggle for finite or toridal universe
         #endregion
@@ -35,7 +35,7 @@ namespace GOLStartUpTemplate1
         {
             InitializeComponent();
 
-            // Loading color settings
+            // Loading color settings from previous run
             graphicsPanel1.BackColor = Properties.Settings.Default.BackgroundColor;
             gridColor = Properties.Settings.Default.GridColor;
             cellColor = Properties.Settings.Default.CellColor;
@@ -72,7 +72,7 @@ namespace GOLStartUpTemplate1
             {
                 for (int iy = 0; iy < universe.GetLength(1); iy++)
                 {
-                    // Which count to use
+                    // Which count to use, Toroidal or Finite
                     if (isFinite)
                     {
                         count = countNeighborsFinite(ix, iy);
@@ -82,19 +82,19 @@ namespace GOLStartUpTemplate1
                         count = CountNeighborsToroidal(ix, iy);
                     }                    
 
-                    // If the cell is alive and has less than 2 or more than 3 neighbors
+                    // If the cell is alive and has less than 2 or more than 3 neighbors it will die
                     if (universe[ix, iy].isAlive == true && (count < 2 || count > 3))
                     {
                         scratchPad[ix, iy].isAlive = false;
                     }
 
-                    // If the cell is alive and has 2 or 3 neighbors
+                    // If the cell is alive and has 2 or 3 neighbors it will live
                     if (universe[ix, iy].isAlive == true && (count == 2 || count == 3))
                     {
                         scratchPad[ix, iy].isAlive = true;
                     }
 
-                    // If the cell is dead and has 3 neighbors
+                    // If the cell is dead and has 3 neighbors it will be alive
                     if (universe[ix, iy].isAlive == false && count == 3)
                     {
                         scratchPad[ix, iy].isAlive = true;
@@ -152,6 +152,7 @@ namespace GOLStartUpTemplate1
 
             // A Pen for drawing the grid lines (color, width)
             Pen gridPen = new Pen(gridColor, 1);
+            Pen tenGridPen = new Pen(gridColor, 2);
 
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
@@ -196,10 +197,20 @@ namespace GOLStartUpTemplate1
                         e.Graphics.FillRectangle(trailBrush, cellRect);
                     }
 
+                    // Show grid
                     if (Properties.Settings.Default.ShowGrid == true)
                     {
-                        // Outline the cell with a pen
                         e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                        //e.Graphics.DrawLine(gridPen, x * cellWidth, 0, x * cellWidth, graphicsPanel1.ClientRectangle.Height);
+                        //e.Graphics.DrawLine(gridPen, 0, y * cellHeight, graphicsPanel1.ClientRectangle.Width, y * cellHeight);
+
+                    }
+
+                    // Getting cut off by trail cells, need to fix
+                    // Show 10 Grid
+                    if (Properties.Settings.Default.ShowGrid == true)
+                    {
+                        e.Graphics.DrawRectangle(tenGridPen, cellRect.X * 10, cellRect.Y * 10, cellRect.Width * 10, cellRect.Height * 10);
                     }
 
                     // Neighnor count painting
@@ -208,6 +219,7 @@ namespace GOLStartUpTemplate1
                         RectangleF rect = new RectangleF(cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                         int neighbors = 0;
 
+                        // Which count to use, Toroidal or Finite
                         if (isFinite)
                         {
                             neighbors = countNeighborsFinite(x, y);
@@ -234,6 +246,7 @@ namespace GOLStartUpTemplate1
                 }
             }
 
+            // For HUD to display the correct universe type
             if (isFinite == true)
             {
                 universeType = "finite";
@@ -279,6 +292,7 @@ namespace GOLStartUpTemplate1
                 // CELL Y = MOUSE Y / CELL HEIGHT
                 int y = (int)(e.Y / cellHeight);
 
+                // Updates how many cells are alive for each click
                 if (universe[x, y].isAlive == false)
                 {
                     numLiving++;
@@ -394,6 +408,7 @@ namespace GOLStartUpTemplate1
                 for (int iy = 0; iy < array.GetLength(1); iy++)
                 {
                     array[ix, iy] = new Cell();
+                    array[ix, iy].isAlive = false;
                 }
             }
         }

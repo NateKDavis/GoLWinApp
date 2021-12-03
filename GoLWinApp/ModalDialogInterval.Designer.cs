@@ -1,5 +1,5 @@
 ﻿
-namespace GOLStartUpTemplate1
+namespace GoLWinApp
 {
     partial class ModalDialogInterval
     {
@@ -95,8 +95,10 @@ namespace GOLStartUpTemplate1
             // 
             // ModalDialogInterval
             // 
+            this.AcceptButton = this.UniverseIntervalOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.UniverseIntervalCancel;
             this.ClientSize = new System.Drawing.Size(384, 161);
             this.Controls.Add(this.UniverseIntervalLabel);
             this.Controls.Add(this.IntervalNum);

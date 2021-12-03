@@ -8,16 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GOLStartUpTemplate1
+namespace GoLWinApp
 {
     public partial class ModalDialogSize : Form
     {
+        // Property for Number of cells row
         public int UniverseWidth
         {
             get { return (int)WidthNum.Value; }
             set { WidthNum.Value = value; }
         }
 
+        // Property for Number of cells per column
         public int UniverseHeight
         {
             get { return (int)HeightNum.Value; }

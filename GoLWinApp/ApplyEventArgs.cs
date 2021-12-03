@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GOLStartUpTemplate1
+namespace GoLWinApp
 {
     public class ApplyEventArgs : EventArgs
     {
