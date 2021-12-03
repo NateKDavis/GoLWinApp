@@ -9,6 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+// -=-=-=-=-=-=-=-=-=-=-=-=-=  TO DO  =-=-=-=-=-=-=-=-=-=-=-=-=-
+// - Implement a method of dealing with Neighbor Count and Cell Age displaying over top of each other
+// - Add a translucant background to the HUD to maintain readability
+
 namespace GoLWinApp
 {
     public partial class Form1 : Form
@@ -52,11 +56,13 @@ namespace GoLWinApp
                 toroidalToolStripMenuItem.Checked = true;
             }
             showGridToolStripMenuItem.Checked = Properties.Settings.Default.ShowGrid;
+            showGridX10ToolStripMenuItem.Checked = Properties.Settings.Default.ShowTenGrid;
             showNeighborCountToolStripMenuItem.Checked = Properties.Settings.Default.ShowNeighborCount;
             showHUDToolStripMenuItem.Checked = Properties.Settings.Default.ShowHUD;
             showTrailToolStripMenuItem.Checked = Properties.Settings.Default.ShowTrail;
             showAgeToolStripMenuItem.Checked = Properties.Settings.Default.ShowAge;
             ageToolStripMenuItem.Checked = Properties.Settings.Default.CellAge;
+            
 
             NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
 
@@ -188,11 +194,11 @@ namespace GoLWinApp
             // String for HUD
             string universeType;
 
-            // Iterate through the universe in the y, top to bottom
-            for (int y = 0; y < universe.GetLength(1); y++)
+            // Iterate through the universe
+            for (int x = 0; x < universe.GetLength(0); x++)
             {
                 // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetLength(0); x++)
+                for (int y = 0; y < universe.GetLength(1); y++)
                 {
                     // A rectangle to represent each cell in pixels
                     RectangleF cellRect = RectangleF.Empty;
@@ -211,23 +217,7 @@ namespace GoLWinApp
                         e.Graphics.FillRectangle(trailBrush, cellRect);
                     }
 
-                    // Show grid
-                    if (Properties.Settings.Default.ShowGrid == true)
-                    {
-                        e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
-                        //e.Graphics.DrawLine(gridPen, x * cellWidth, 0, x * cellWidth, graphicsPanel1.ClientRectangle.Height);
-                        //e.Graphics.DrawLine(gridPen, 0, y * cellHeight, graphicsPanel1.ClientRectangle.Width, y * cellHeight);
-
-                    }
-
-                    // Getting cut off by trail cells, need to fix
-                    // Show 10 Grid
-                    if (Properties.Settings.Default.ShowGrid == true)
-                    {
-                        e.Graphics.DrawRectangle(tenGridPen, cellRect.X * 10, cellRect.Y * 10, cellRect.Width * 10, cellRect.Height * 10);
-                    }
-
-                    // Neighnor count painting
+                    // Neighbor count painting
                     if (Properties.Settings.Default.ShowNeighborCount == true)
                     {
                         RectangleF rect = new RectangleF(cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
@@ -267,6 +257,38 @@ namespace GoLWinApp
                             e.Graphics.DrawString(universe[x, y].age.ToString(), font, Brushes.Black, ageRect, stringFormat);
                         }
                     }
+                }
+            }
+
+            // Grid
+            if (Properties.Settings.Default.ShowGrid == true)
+            {
+                // Show gridlines Y
+                for (int y = 0; y < universe.GetLength(1); y++)
+                {
+                    e.Graphics.DrawLine(gridPen, 0, y * cellHeight, graphicsPanel1.ClientRectangle.Width, y * cellHeight);
+                }
+
+                // Show gridlines X
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {                    
+                    e.Graphics.DrawLine(gridPen, x * cellWidth, 0, x * cellWidth, graphicsPanel1.ClientRectangle.Height);
+                }
+            }
+
+            // 10x10 grid
+            if (Properties.Settings.Default.ShowTenGrid == true)
+            {
+                // Show gridlines Y * 10
+                for (int y = 0; y < universe.GetLength(1); y++)
+                {
+                    e.Graphics.DrawLine(tenGridPen, 0, y * cellHeight * 10, graphicsPanel1.ClientRectangle.Width, y * cellHeight * 10);
+                }
+
+                // Show gridlines X * 10
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    e.Graphics.DrawLine(tenGridPen, x * cellWidth * 10, 0, x * cellWidth * 10, graphicsPanel1.ClientRectangle.Height);
                 }
             }
 
@@ -683,6 +705,20 @@ namespace GoLWinApp
                 timer.Interval = Properties.Settings.Default.Interval;
             }
         }
+
+        private void fillUniverseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
+
+            // Make all Cells Alive
+            for (int x = 0; x < universe.GetLength(0); x++)
+            {
+                for (int y = 0; y < universe.GetLength(1); y++)
+                {
+                    universe[x, y].isAlive = true;
+                }
+            }
+        }
         #endregion
 
         #region Cells
@@ -696,6 +732,12 @@ namespace GoLWinApp
         private void showGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.ShowGrid = !Properties.Settings.Default.ShowGrid;
+            graphicsPanel1.Invalidate();
+        }
+
+        private void showGridX10ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ShowTenGrid = !Properties.Settings.Default.ShowTenGrid;
             graphicsPanel1.Invalidate();
         }
 

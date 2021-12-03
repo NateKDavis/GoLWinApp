@@ -190,5 +190,17 @@ namespace GoLWinApp.Properties {
                 this["DeathAge"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowTenGrid {
+            get {
+                return ((bool)(this["ShowTenGrid"]));
+            }
+            set {
+                this["ShowTenGrid"] = value;
+            }
+        }
     }
 }
