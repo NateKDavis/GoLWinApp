@@ -154,5 +154,41 @@ namespace GoLWinApp.Properties {
                 this["TrailColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CellAge {
+            get {
+                return ((bool)(this["CellAge"]));
+            }
+            set {
+                this["CellAge"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowAge {
+            get {
+                return ((bool)(this["ShowAge"]));
+            }
+            set {
+                this["ShowAge"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int DeathAge {
+            get {
+                return ((int)(this["DeathAge"]));
+            }
+            set {
+                this["DeathAge"] = value;
+            }
+        }
     }
 }

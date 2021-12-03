@@ -17,6 +17,7 @@ namespace GoLWinApp
         Cell[,] universe = new Cell[50, 50]; // Shown array
         Cell[,] scratchPad = new Cell[50, 50]; // Array to hold the next generation
         Cell[,] trailHolder = new Cell[50, 50]; // Array to hold where cells have been
+        Cell[,] ageHolder = new Cell[50, 50]; // Array to hold a cells age
 
         Color gridColor;
         Color cellColor;
@@ -54,6 +55,8 @@ namespace GoLWinApp
             showNeighborCountToolStripMenuItem.Checked = Properties.Settings.Default.ShowNeighborCount;
             showHUDToolStripMenuItem.Checked = Properties.Settings.Default.ShowHUD;
             showTrailToolStripMenuItem.Checked = Properties.Settings.Default.ShowTrail;
+            showAgeToolStripMenuItem.Checked = Properties.Settings.Default.ShowAge;
+            ageToolStripMenuItem.Checked = Properties.Settings.Default.CellAge;
 
             NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
 
@@ -67,50 +70,52 @@ namespace GoLWinApp
         {
             int count = 0;
 
-            // Loops through the universe to calucluate the universes next generation
-            for (int ix = 0; ix < universe.GetLength(0); ix++)
+            // Loops through the universe to calucluate the universes next generation, Trail, and age. 
+            for (int x = 0; x < universe.GetLength(0); x++)
             {
-                for (int iy = 0; iy < universe.GetLength(1); iy++)
+                for (int y = 0; y < universe.GetLength(1); y++)
                 {
                     // Which count to use, Toroidal or Finite
                     if (isFinite)
                     {
-                        count = countNeighborsFinite(ix, iy);
+                        count = countNeighborsFinite(x, y);
                     }
                     else
                     {
-                        count = CountNeighborsToroidal(ix, iy);
-                    }                    
+                        count = CountNeighborsToroidal(x, y);
+                    }
+
+                    // Saves the cell age and trail if it's alive
+                    if (universe[x, y].isAlive == true)
+                    {
+                        trailHolder[x, y].isAlive = true;
+                        ageHolder[x, y].age = ageHolder[x, y].age + 1;
+                    }
 
                     // If the cell is alive and has less than 2 or more than 3 neighbors it will die
-                    if (universe[ix, iy].isAlive == true && (count < 2 || count > 3))
+                    if (universe[x, y].isAlive == true && (count < 2 || count > 3))
                     {
-                        scratchPad[ix, iy].isAlive = false;
+                        scratchPad[x, y].isAlive = false;
+                        ageHolder[x, y].age = 0;
                     }
 
                     // If the cell is alive and has 2 or 3 neighbors it will live
-                    if (universe[ix, iy].isAlive == true && (count == 2 || count == 3))
+                    if (universe[x, y].isAlive == true && (count == 2 || count == 3))
                     {
-                        scratchPad[ix, iy].isAlive = true;
+                        scratchPad[x, y].isAlive = true;                        
                     }
 
-                    // If the cell is dead and has 3 neighbors it will be alive
-                    if (universe[ix, iy].isAlive == false && count == 3)
+                    // If the cell is dead and has 3 neighbors it will be born
+                    if (universe[x, y].isAlive == false && count == 3)
                     {
-                        scratchPad[ix, iy].isAlive = true;
+                        scratchPad[x, y].isAlive = true;
                     }
-                }
-            }
 
-            // Loops through the universe to save the trail
-            for (int ix = 0; ix < universe.GetLength(0); ix++)
-            {
-                for (int iy = 0; iy < universe.GetLength(1); iy++)
-                {
-                    if (universe[ix, iy].isAlive == true)
+                    if (Properties.Settings.Default.CellAge == true && universe[x, y].age >= Properties.Settings.Default.DeathAge)
                     {
-                        trailHolder[ix, iy].isAlive = true;
-                    }
+                        scratchPad[x, y].isAlive = false;
+                        ageHolder[x, y].age = 0;
+                    } 
                 }
             }
 
@@ -119,12 +124,21 @@ namespace GoLWinApp
             universe = scratchPad;
             scratchPad = temp;
 
-            // clear the scratchPad
-            for (int ix = 0; ix < scratchPad.GetLength(0); ix++)
+            // transfer age
+            for (int x = 0; x < universe.GetLength(0); x++)
             {
-                for (int iy = 0; iy < scratchPad.GetLength(1); iy++)
+                for (int y = 0; y < universe.GetLength(1); y++)
                 {
-                    scratchPad[ix, iy].isAlive = false;
+                    universe[x, y].age = ageHolder[x, y].age;
+                }
+            }
+
+            // clear the scratchPad
+            for (int x = 0; x < scratchPad.GetLength(0); x++)
+            {
+                for (int y = 0; y < scratchPad.GetLength(1); y++)
+                {
+                    scratchPad[x, y].isAlive = false;
                 }
             }
 
@@ -159,7 +173,7 @@ namespace GoLWinApp
             Brush trailBrush = new SolidBrush(trailColor);
 
             // Font for displaying neighbor counts
-            Single fontSize = (graphicsPanel1.ClientSize.Height / (float)universe.GetLength(1)) / (float)2;
+            Single fontSize = (graphicsPanel1.ClientSize.Height / (float)universe.GetLength(1)) / 2;
             Font font = new Font("Arial", fontSize);
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
@@ -241,6 +255,16 @@ namespace GoLWinApp
                             {
                                 e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, rect, stringFormat);
                             }
+                        }                        
+                    }
+
+                    // Age painting
+                    if (Properties.Settings.Default.ShowAge == true)
+                    {
+                        if (universe[x, y].age != 0)
+                        {
+                            RectangleF ageRect = new RectangleF(cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                            e.Graphics.DrawString(universe[x, y].age.ToString(), font, Brushes.Black, ageRect, stringFormat);
                         }
                     }
                 }
@@ -408,7 +432,6 @@ namespace GoLWinApp
                 for (int iy = 0; iy < array.GetLength(1); iy++)
                 {
                     array[ix, iy] = new Cell();
-                    array[ix, iy].isAlive = false;
                 }
             }
         }
@@ -474,11 +497,13 @@ namespace GoLWinApp
             universe = new Cell[x, y];
             scratchPad = new Cell[x, y];
             trailHolder = new Cell[x, y];
+            ageHolder = new Cell[x, y];
 
             // Fill with dead cells
             Fill2DCellArray(universe);
             Fill2DCellArray(scratchPad);
             Fill2DCellArray(trailHolder);
+            Fill2DCellArray(ageHolder);
 
             // Reset settings correctly
             timer.Enabled = false;
@@ -660,6 +685,13 @@ namespace GoLWinApp
         }
         #endregion
 
+        #region Cells
+        private void ageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CellAge = !Properties.Settings.Default.CellAge;
+        }
+        #endregion
+
         #region View
         private void showGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -682,6 +714,12 @@ namespace GoLWinApp
         private void showTrailToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.ShowTrail = !Properties.Settings.Default.ShowTrail;
+            graphicsPanel1.Invalidate();
+        }
+
+        private void showAgeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ShowAge = !Properties.Settings.Default.ShowAge;
             graphicsPanel1.Invalidate();
         }
         #endregion
