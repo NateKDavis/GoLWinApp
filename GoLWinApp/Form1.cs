@@ -12,6 +12,7 @@ using System.Windows.Forms;
 // -=-=-=-=-=-=-=-=-=-=-=-=-=  TO DO  =-=-=-=-=-=-=-=-=-=-=-=-=-
 // - Implement a method of dealing with Neighbor Count and Cell Age displaying over top of each other
 // - Add a translucant background to the HUD to maintain readability
+// - Make open and save work for cell ages as well
 
 namespace GoLWinApp
 {
@@ -21,7 +22,7 @@ namespace GoLWinApp
         Cell[,] universe = new Cell[50, 50]; // Shown array
         Cell[,] scratchPad = new Cell[50, 50]; // Array to hold the next generation
         Cell[,] trailHolder = new Cell[50, 50]; // Array to hold where cells have been
-        Cell[,] ageHolder = new Cell[50, 50]; // Array to hold a cells age
+        Cell[,] ageHolder = new Cell[50, 50]; // Array to hold a cell's age
 
         Color gridColor;
         Color cellColor;
@@ -60,9 +61,7 @@ namespace GoLWinApp
             showNeighborCountToolStripMenuItem.Checked = Properties.Settings.Default.ShowNeighborCount;
             showHUDToolStripMenuItem.Checked = Properties.Settings.Default.ShowHUD;
             showTrailToolStripMenuItem.Checked = Properties.Settings.Default.ShowTrail;
-            showAgeToolStripMenuItem.Checked = Properties.Settings.Default.ShowAge;
-            ageToolStripMenuItem.Checked = Properties.Settings.Default.CellAge;
-            
+            showAgeToolStripMenuItem.Checked = Properties.Settings.Default.ShowAge;            
 
             NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
 
@@ -76,7 +75,7 @@ namespace GoLWinApp
         {
             int count = 0;
 
-            // Loops through the universe to calucluate the universes next generation, Trail, and age. 
+            // Loops through the universe to calucluate the universe's next generation, trail, and age. 
             for (int x = 0; x < universe.GetLength(0); x++)
             {
                 for (int y = 0; y < universe.GetLength(1); y++)
@@ -179,11 +178,11 @@ namespace GoLWinApp
             Brush trailBrush = new SolidBrush(trailColor);
 
             // Font for displaying neighbor counts
-            Single fontSize = (graphicsPanel1.ClientSize.Height / (float)universe.GetLength(1)) / 2;
-            Font font = new Font("Arial", fontSize);
-            StringFormat stringFormat = new StringFormat();
-            stringFormat.Alignment = StringAlignment.Center;
-            stringFormat.LineAlignment = StringAlignment.Center;
+            Single countFontSize = (graphicsPanel1.ClientSize.Height / (float)universe.GetLength(1)) / 2;
+            Font countFont = new Font("Arial", countFontSize);
+            StringFormat countStringFormat = new StringFormat();
+            countStringFormat.Alignment = StringAlignment.Center;
+            countStringFormat.LineAlignment = StringAlignment.Center;
 
             // Font for displaying the HUD
             Font hudFont = new Font("Arial", 20);
@@ -191,13 +190,12 @@ namespace GoLWinApp
             hudStringFormat.Alignment = StringAlignment.Near;
             hudStringFormat.LineAlignment = StringAlignment.Far;
 
-            // String for HUD
+            // String for HUD to display the correct type (torodial or finite)
             string universeType;
 
-            // Iterate through the universe
+            // Iterate through the universe to update each cell
             for (int x = 0; x < universe.GetLength(0); x++)
             {
-                // Iterate through the universe in the x, left to right
                 for (int y = 0; y < universe.GetLength(1); y++)
                 {
                     // A rectangle to represent each cell in pixels
@@ -207,7 +205,7 @@ namespace GoLWinApp
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
 
-                    // Fill the cell with a brush if alive else if a cell has been there fill it
+                    // Fill the cell with the living color if alive else if a cell has been there fill it with the trail color
                     if (universe[x, y].isAlive == true)
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
@@ -220,7 +218,6 @@ namespace GoLWinApp
                     // Neighbor count painting
                     if (Properties.Settings.Default.ShowNeighborCount == true)
                     {
-                        RectangleF rect = new RectangleF(cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                         int neighbors = 0;
 
                         // Which count to use, Toroidal or Finite
@@ -238,12 +235,12 @@ namespace GoLWinApp
                             // If cell should live or become alive, make text green
                             if ((neighbors == 2 && universe[x, y].isAlive == true) || neighbors == 3)
                             {
-                                e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Green, rect, stringFormat);
+                                e.Graphics.DrawString(neighbors.ToString(), countFont, Brushes.Green, cellRect, countStringFormat);
                             }
                             // If cell should die or be dead, make text red
                             else
                             {
-                                e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Red, rect, stringFormat);
+                                e.Graphics.DrawString(neighbors.ToString(), countFont, Brushes.Red, cellRect, countStringFormat);
                             }
                         }                        
                     }
@@ -253,8 +250,7 @@ namespace GoLWinApp
                     {
                         if (universe[x, y].age != 0)
                         {
-                            RectangleF ageRect = new RectangleF(cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
-                            e.Graphics.DrawString(universe[x, y].age.ToString(), font, Brushes.Black, ageRect, stringFormat);
+                            e.Graphics.DrawString(universe[x, y].age.ToString(), countFont, Brushes.Black, cellRect, countStringFormat);
                         }
                     }
                 }
@@ -314,10 +310,11 @@ namespace GoLWinApp
 
             // Cleaning up
             gridPen.Dispose();
+            tenGridPen.Dispose();
             cellBrush.Dispose();
             trailBrush.Dispose();
-            font.Dispose();
-            stringFormat.Dispose();
+            countFont.Dispose();
+            countStringFormat.Dispose();
             hudFont.Dispose();
             hudStringFormat.Dispose();
         }
@@ -458,7 +455,7 @@ namespace GoLWinApp
             }
         }
 
-        // Loops through the universe and randoms cells to alive or dead
+        // Loops through the universe and randoms cells to alive or dead based on time, will make roughly 1/3 of the cells alive
         private void RandomUniverseTimeSeed()
         {
             int num = 0;
@@ -485,7 +482,7 @@ namespace GoLWinApp
             graphicsPanel1.Invalidate();
         }
 
-        // Loops through the universe and randoms cells to alive or dead
+        // Loops through the universe and randoms cells to alive or dead based on a give number, will make roughly 1/3 of the cells alive
         private void RandomUniverseRandNumSeed()
         {
             int num = 0;
@@ -562,6 +559,7 @@ namespace GoLWinApp
         #region Toolbar
 
         #region File
+        // Closes the program
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -569,6 +567,7 @@ namespace GoLWinApp
         #endregion
 
         #region Colors
+        // Dialog box to change the background color when a cell is dead and there is no trail
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -580,7 +579,7 @@ namespace GoLWinApp
                 graphicsPanel1.Invalidate();
             }
         }
-
+        // Dialog box to change the living cell color
         private void cellsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -592,7 +591,7 @@ namespace GoLWinApp
                 graphicsPanel1.Invalidate();
             }
         }
-
+        // Dialog box to change the grid line's color
         private void gridToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -604,7 +603,7 @@ namespace GoLWinApp
                 graphicsPanel1.Invalidate();
             }
         }
-
+        // Dialog box to change the color representing cells where there has been a living cell
         private void trailToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -656,6 +655,7 @@ namespace GoLWinApp
         #endregion
 
         #region Universe
+        // Sets the universe to end at the edges
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (isFinite == false)
@@ -666,7 +666,7 @@ namespace GoLWinApp
                 graphicsPanel1.Invalidate();
             }
         }
-
+        // Sets the universe to wrap around at the edges
         private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (isFinite == true)
@@ -677,7 +677,7 @@ namespace GoLWinApp
                 graphicsPanel1.Invalidate();
             }
         }
-
+        // Dialog box to adjust how big the universe is in cells
         private void sizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ModalDialogSize dlg = new ModalDialogSize();
@@ -693,7 +693,7 @@ namespace GoLWinApp
                 graphicsPanel1.Invalidate();
             }
         }
-
+        // Dialog box to change how many miliseconds will pass before each generation
         private void speedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ModalDialogInterval dlg = new ModalDialogInterval();
@@ -705,7 +705,7 @@ namespace GoLWinApp
                 timer.Interval = Properties.Settings.Default.Interval;
             }
         }
-
+        // Makes every cell in the universe living
         private void fillUniverseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
@@ -722,43 +722,55 @@ namespace GoLWinApp
         #endregion
 
         #region Cells
+        // WIP
+        // Dialog box to change wether or not cells die from age, and at what age they die
         private void ageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.CellAge = !Properties.Settings.Default.CellAge;
+            ModalDialogAge dlg = new ModalDialogAge();
+            dlg.deathAge = Properties.Settings.Default.DeathAge;            
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                Properties.Settings.Default.DeathAge = dlg.deathAge;
+
+
+                graphicsPanel1.Invalidate();
+            }
         }
         #endregion
 
         #region View
+        // Toggles the grid to render
         private void showGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.ShowGrid = !Properties.Settings.Default.ShowGrid;
             graphicsPanel1.Invalidate();
         }
-
+        // Toggles the 10xgrid to render
         private void showGridX10ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.ShowTenGrid = !Properties.Settings.Default.ShowTenGrid;
             graphicsPanel1.Invalidate();
         }
-
+        // Toggles rendering the neighbor counts
         private void showNeighborCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.ShowNeighborCount = !Properties.Settings.Default.ShowNeighborCount;
             graphicsPanel1.Invalidate();
         }
-
+        // Toggles the HUD
         private void showHUDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.ShowHUD = !Properties.Settings.Default.ShowHUD;
             graphicsPanel1.Invalidate();
         }
-
+        // Toggles showing where cells have been
         private void showTrailToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.ShowTrail = !Properties.Settings.Default.ShowTrail;
             graphicsPanel1.Invalidate();
         }
-
+        // Toggles rending how old a cell is
         private void showAgeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.ShowAge = !Properties.Settings.Default.ShowAge;
@@ -766,11 +778,12 @@ namespace GoLWinApp
         }
         #endregion
 
+        // Makes a brand new universe
         private void NewUniverseButton_Click(object sender, EventArgs e)
         {
             NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
         }
-
+        // Reads a plain text file to get the size and living cells for a new universe
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
@@ -856,7 +869,7 @@ namespace GoLWinApp
                 graphicsPanel1.Invalidate();
             }
         }
-
+        // Saves universe size and living cells positions to a plain text file
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
             SaveFileDialog dlg = new SaveFileDialog();
@@ -906,7 +919,7 @@ namespace GoLWinApp
                 writer.Close();
             }
         }
-
+        // Starts the tick timer
         private void StartButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
@@ -914,7 +927,7 @@ namespace GoLWinApp
             Pause.Visible = true;
             NextGenerationButton.Enabled = false;
         }
-
+        // Pauses the tick timer
         private void PauseButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = false;
@@ -922,13 +935,14 @@ namespace GoLWinApp
             Start.Visible = true;
             NextGenerationButton.Enabled = true;
         }
-
+        // Advances the universe one generation
         private void NextGenerationButton_Click(object sender, EventArgs e)
         {
             NextGeneration();
         }
 
         #region Random
+        // Dialog box for changing the seed used for random universe
         private void randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ModalDialogSeed dlg = new ModalDialogSeed();
@@ -942,7 +956,7 @@ namespace GoLWinApp
                 graphicsPanel1.Invalidate();
             }
         }
-
+        // Makes a new universe randomed based on the time
         private void randomFromTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
@@ -950,6 +964,7 @@ namespace GoLWinApp
         }
         #endregion
 
+        // Saves users settings when closing down
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             Properties.Settings.Default.BackgroundColor = graphicsPanel1.BackColor;

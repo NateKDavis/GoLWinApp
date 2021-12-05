@@ -58,12 +58,17 @@ namespace GoLWinApp
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.sizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.fillUniverseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cellsToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.ageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showGridX10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.showNeighborCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showHUDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.showTrailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showAgeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -93,12 +98,7 @@ namespace GoLWinApp
             this.ikeaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.discoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.flowerFieldToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.fillUniverseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.graphicsPanel1 = new GoLWinApp.GraphicsPanel();
-            this.showGridX10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -296,7 +296,7 @@ namespace GoLWinApp
             // finiteToolStripMenuItem
             // 
             this.finiteToolStripMenuItem.Name = "finiteToolStripMenuItem";
-            this.finiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.finiteToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.finiteToolStripMenuItem.Text = "Finite";
             this.finiteToolStripMenuItem.ToolTipText = "Universe ends at the edges";
             this.finiteToolStripMenuItem.Click += new System.EventHandler(this.finiteToolStripMenuItem_Click);
@@ -304,7 +304,7 @@ namespace GoLWinApp
             // toroidalToolStripMenuItem
             // 
             this.toroidalToolStripMenuItem.Name = "toroidalToolStripMenuItem";
-            this.toroidalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.toroidalToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.toroidalToolStripMenuItem.Text = "Toroidal";
             this.toroidalToolStripMenuItem.ToolTipText = "Universe wraps at the edges";
             this.toroidalToolStripMenuItem.Click += new System.EventHandler(this.toroidalToolStripMenuItem_Click);
@@ -312,21 +312,33 @@ namespace GoLWinApp
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(134, 6);
             // 
             // sizeToolStripMenuItem
             // 
             this.sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
-            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.sizeToolStripMenuItem.Text = "Size";
             this.sizeToolStripMenuItem.Click += new System.EventHandler(this.sizeToolStripMenuItem_Click);
             // 
             // speedToolStripMenuItem
             // 
             this.speedToolStripMenuItem.Name = "speedToolStripMenuItem";
-            this.speedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.speedToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.speedToolStripMenuItem.Text = "Speed";
             this.speedToolStripMenuItem.Click += new System.EventHandler(this.speedToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(134, 6);
+            // 
+            // fillUniverseToolStripMenuItem
+            // 
+            this.fillUniverseToolStripMenuItem.Name = "fillUniverseToolStripMenuItem";
+            this.fillUniverseToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.fillUniverseToolStripMenuItem.Text = "Fill Universe";
+            this.fillUniverseToolStripMenuItem.Click += new System.EventHandler(this.fillUniverseToolStripMenuItem_Click);
             // 
             // cellsToolStripMenuItem2
             // 
@@ -338,9 +350,8 @@ namespace GoLWinApp
             // 
             // ageToolStripMenuItem
             // 
-            this.ageToolStripMenuItem.CheckOnClick = true;
             this.ageToolStripMenuItem.Name = "ageToolStripMenuItem";
-            this.ageToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
+            this.ageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ageToolStripMenuItem.Text = "Age";
             this.ageToolStripMenuItem.Click += new System.EventHandler(this.ageToolStripMenuItem_Click);
             // 
@@ -367,6 +378,19 @@ namespace GoLWinApp
             this.showGridToolStripMenuItem.Text = "Show Grid";
             this.showGridToolStripMenuItem.Click += new System.EventHandler(this.showGridToolStripMenuItem_Click);
             // 
+            // showGridX10ToolStripMenuItem
+            // 
+            this.showGridX10ToolStripMenuItem.CheckOnClick = true;
+            this.showGridX10ToolStripMenuItem.Name = "showGridX10ToolStripMenuItem";
+            this.showGridX10ToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.showGridX10ToolStripMenuItem.Text = "Show Grid X 10";
+            this.showGridX10ToolStripMenuItem.Click += new System.EventHandler(this.showGridX10ToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(189, 6);
+            // 
             // showNeighborCountToolStripMenuItem
             // 
             this.showNeighborCountToolStripMenuItem.CheckOnClick = true;
@@ -382,6 +406,11 @@ namespace GoLWinApp
             this.showHUDToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.showHUDToolStripMenuItem.Text = "Show HUD";
             this.showHUDToolStripMenuItem.Click += new System.EventHandler(this.showHUDToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(189, 6);
             // 
             // showTrailToolStripMenuItem
             // 
@@ -632,18 +661,6 @@ namespace GoLWinApp
             this.flowerFieldToolStripMenuItem1.Text = "Flower Field";
             this.flowerFieldToolStripMenuItem1.Click += new System.EventHandler(this.flowerFieldToolStripMenuItem_Click);
             // 
-            // fillUniverseToolStripMenuItem
-            // 
-            this.fillUniverseToolStripMenuItem.Name = "fillUniverseToolStripMenuItem";
-            this.fillUniverseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.fillUniverseToolStripMenuItem.Text = "Fill Universe";
-            this.fillUniverseToolStripMenuItem.Click += new System.EventHandler(this.fillUniverseToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(177, 6);
-            // 
             // graphicsPanel1
             // 
             this.graphicsPanel1.BackColor = System.Drawing.SystemColors.Window;
@@ -655,24 +672,6 @@ namespace GoLWinApp
             this.graphicsPanel1.TabIndex = 3;
             this.graphicsPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicsPanel1_Paint);
             this.graphicsPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.graphicsPanel1_MouseClick);
-            // 
-            // showGridX10ToolStripMenuItem
-            // 
-            this.showGridX10ToolStripMenuItem.CheckOnClick = true;
-            this.showGridX10ToolStripMenuItem.Name = "showGridX10ToolStripMenuItem";
-            this.showGridX10ToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.showGridX10ToolStripMenuItem.Text = "Show Grid X 10";
-            this.showGridX10ToolStripMenuItem.Click += new System.EventHandler(this.showGridX10ToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(189, 6);
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(189, 6);
             // 
             // Form1
             // 
