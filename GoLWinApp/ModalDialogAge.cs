@@ -23,10 +23,5 @@ namespace GoLWinApp
         {
             InitializeComponent();
         }
-
-        private void CellDeath_Click(object sender, EventArgs e)
-        {
-           1
-        }
     }
 }

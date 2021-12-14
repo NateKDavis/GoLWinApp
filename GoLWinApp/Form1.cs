@@ -61,7 +61,8 @@ namespace GoLWinApp
             showNeighborCountToolStripMenuItem.Checked = Properties.Settings.Default.ShowNeighborCount;
             showHUDToolStripMenuItem.Checked = Properties.Settings.Default.ShowHUD;
             showTrailToolStripMenuItem.Checked = Properties.Settings.Default.ShowTrail;
-            showAgeToolStripMenuItem.Checked = Properties.Settings.Default.ShowAge;            
+            showAgeToolStripMenuItem.Checked = Properties.Settings.Default.ShowAge;
+            ageCellsToolStripMenuItem.Checked = Properties.Settings.Default.CellAge;
 
             NewUniverse(Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHeight);
 
@@ -663,7 +664,6 @@ namespace GoLWinApp
                 isFinite = true;
                 finiteToolStripMenuItem.Checked = true;
                 toroidalToolStripMenuItem.Checked = false;
-                graphicsPanel1.Invalidate();
             }
         }
         // Sets the universe to wrap around at the edges
@@ -674,7 +674,6 @@ namespace GoLWinApp
                 isFinite = false;
                 toroidalToolStripMenuItem.Checked = true;
                 finiteToolStripMenuItem.Checked = false;
-                graphicsPanel1.Invalidate();
             }
         }
         // Dialog box to adjust how big the universe is in cells
@@ -736,6 +735,11 @@ namespace GoLWinApp
 
                 graphicsPanel1.Invalidate();
             }
+        }
+        // Toggles Cells aging
+        private void ageCellsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.CellAge = !Properties.Settings.Default.CellAge;
         }
         #endregion
 

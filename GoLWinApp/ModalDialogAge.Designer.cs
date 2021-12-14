@@ -29,24 +29,12 @@ namespace GoLWinApp
         /// </summary>
         private void InitializeComponent()
         {
-            this.CellDeath = new System.Windows.Forms.CheckBox();
             this.AgeOK = new System.Windows.Forms.Button();
             this.AgeCancel = new System.Windows.Forms.Button();
             this.DeathAgeNum = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DeathAgeNum)).BeginInit();
             this.SuspendLayout();
-            // 
-            // CellDeath
-            // 
-            this.CellDeath.AutoSize = true;
-            this.CellDeath.Location = new System.Drawing.Point(96, 83);
-            this.CellDeath.Name = "CellDeath";
-            this.CellDeath.Size = new System.Drawing.Size(112, 17);
-            this.CellDeath.TabIndex = 0;
-            this.CellDeath.Text = "Cells Die from Age";
-            this.CellDeath.UseVisualStyleBackColor = true;
-            this.CellDeath.Click += new System.EventHandler(this.CellDeath_Click);
             // 
             // AgeOK
             // 
@@ -93,7 +81,6 @@ namespace GoLWinApp
             this.Controls.Add(this.DeathAgeNum);
             this.Controls.Add(this.AgeCancel);
             this.Controls.Add(this.AgeOK);
-            this.Controls.Add(this.CellDeath);
             this.Name = "ModalDialogAge";
             this.Text = "ModalDialogAge";
             ((System.ComponentModel.ISupportInitialize)(this.DeathAgeNum)).EndInit();
